@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head><meta charset="utf-8">
+<title>Sharia-Compliance Workbook — single-run worksheet</title>
+<style>
+body{font-family:Georgia,'Times New Roman',serif;color:#111;background:#fff;max-width:210mm;margin:0 auto;padding:12mm;}
+.ar{direction:rtl;text-align:right;}
+table{width:100%;border-collapse:collapse;margin:1em 0;}
+th,td{border:1px solid #444;padding:.4em;vertical-align:top;text-align:left;}
+thead{display:table-header-group;}
+tr,section{break-inside:avoid;}
+.badge{display:inline-block;border:1px solid #111;border-radius:4px;padding:.1em .5em;margin:.1em;font-size:.9em;}
+.alert{border:2px solid #111;padding:.6em;margin:.6em 0;}
+.signoff{border:2px solid #111;padding:1em;margin-top:2em;}
+.gap{border:1px dashed #666;padding:.3em;background:#f6f6f6;}
+@page{size:A4;margin:15mm;}
+@media print{.noprint{display:none;}}
+</style></head><body>
+<h1>Sharia-Compliance Workbook — mapping worksheet</h1>
+<p class="alert" data-statuslabel><strong>Input status: unconfirmed input</strong> — this document has not been reviewed and carries no reviewer sign-off.<br><span class="ar" dir="rtl" lang="ar">حالة المدخلات: مدخلات غير مؤكدة — لم تُراجع هذه الوثيقة ولا تحمل اعتماد مراجع.</span></p>
+<p><strong>Drafting aid only — not legal advice, not a fatwa, not regulatory approval.</strong> Every verdict below is a <em>proposed</em> worksheet field pending human review and sign-off; the tool never approves.</p>
+<p>Pack <b>scw-qatar-starter</b> v0.2.0 · sha256 <code>1ea71e863f05f7b8c1c2fd64ce0b58fd03de5a3512e25b15d4bee64451cae042</code> · status draft
+<br>Run <code>run-20260922T230100Z-eaf212d5</code> · input <code>ci-22222222-2222-4222-8222-222222222222</code> · engine 1.0.0
+<br>Network calls: none · Deterministic: yes · LLM invoked: none</p>
+<p>Proposed verdict counts: compliant 0 (Met); non_compliant 0 (Gap); doubtful 1 (Unverified); out_of_coverage 0 (Not applicable); insufficient_input 0 (Needs evidence)</p>
+<h2>Worksheet rows</h2>
+<table><thead><tr><th>Item</th><th>Domain</th><th>Proposed verdict — tool</th><th>Recorded verdict — reviewer</th><th>Evidence</th></tr></thead><tbody>
+<tr><td><b>item-ft-murabaha</b><br>terms: term-murabaha<br>confirmed: no</td><td>d_financing_contracts</td><td><span class="badge">Proposed: doubtful (Unverified)</span><br>limits: single_run_scope; no_stemming_ar; unmatched_content_not_assessed; advisory_only_unverified_citations</td><td><span class="badge">Recorded: not yet recorded</span></td><td><p><b>rule-murabaha-conditions</b> (doubtful, advisory) — term term-murabaha “murabaha” code points 20–28<br>Citations: AAOIFI Sharia Standard No. 8 — Murabaha (referenced via secondary sources; AAOIFI primary text not fetched) [unverified]; Grokipedia: Murabaha (tertiary encyclopedia entry) [unverified]<br>Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.<br><span class="ar" dir="rtl">تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً.</span></p><p><b>rule-interest-surface</b> (doubtful, advisory) — pattern <code>\binterest\b</code> “interest” [90–98]<br>Citations: Quran 2:275 (&#x27;Allah has permitted trade and forbidden riba&#x27;) — primary mushaf text not fetched by the research lane [unverified]<br>English-language &#x27;interest&#x27; is treated as a surface trigger for riba review; same unverified-citation downgrade as rule-riba-term applies.<br><span class="ar" dir="rtl">لفظ interest بالإنجليزية يعد مؤشرا على الربا للمراجعة؛ ويسري عليه نفس تخفيض الشك لعدم توثيق الإسناد.</span></p><p><b>rule-murabaha-conditions</b> (doubtful, advisory) — term term-murabaha “murabaha” code points 151–159<br>Citations: AAOIFI Sharia Standard No. 8 — Murabaha (referenced via secondary sources; AAOIFI primary text not fetched) [unverified]; Grokipedia: Murabaha (tertiary encyclopedia entry) [unverified]<br>Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.<br><span class="ar" dir="rtl">تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً.</span></p><p><b>rule-interest-surface</b> (doubtful, advisory) — pattern <code>\binterest\b</code> “interest” [193–201]<br>Citations: Quran 2:275 (&#x27;Allah has permitted trade and forbidden riba&#x27;) — primary mushaf text not fetched by the research lane [unverified]<br>English-language &#x27;interest&#x27; is treated as a surface trigger for riba review; same unverified-citation downgrade as rule-riba-term applies.<br><span class="ar" dir="rtl">لفظ interest بالإنجليزية يعد مؤشرا على الربا للمراجعة؛ ويسري عليه نفس تخفيض الشك لعدم توثيق الإسناد.</span></p><p><b>Unverified pathway:</b> 4 finding(s) rest on unverified citations; they can never produce a Gap verdict.</p></td></tr>
+</tbody></table>
+<h2>Coverage limits</h2><ol>
+<li><b>limit-1</b> — The pack covers murabaha, ijara, takaful and related structures across four domains. Anything outside the lexicon is “not covered” — never “compliant by silence”.<br><span class="ar" dir="rtl">تغطي هذه الحزمة المرابحة والإجارة والتكافل والبنية ذات الصلة عبر أربعة نطاقات. وكل ما هو خارج المعجم يُعلَّم «غير مغطى»، ولا يُعامل «مطابقًا» بقرار ضمني.</span></li>
+<li><b>limit-2</b> — Free-text matching is exact-surface only — no stemming and no Arabic morphology; definite-article and inflected Arabic forms will not match. The guided form is the completeness instrument.<br><span class="ar" dir="rtl">مطابقة النص الحر تعتمد المطابقة الحرفية الدقيقة فقط، بلا جذور ولا صرف عربي؛ الشكل المعرَّف والأشكال المُعربَّة لا تتطابق. النموذج الموجَّه هو أداة الإكمال.</span></li>
+<li><b>limit-3</b> — Content that matches nothing in free-text mode is NOT assessed; a single reminder rides on the first proposed item.<br><span class="ar" dir="rtl">الذي لا يطابق شيئًا في وضع النص الحر لا يُقيَّم؛ ويظهر تنبيه واحد على أول بند مقترح.</span></li>
+<li><b>limit-4</b> — “compliant” is an absence state, not an affirmative ruling.<br><span class="ar" dir="rtl">«compliant» حالة غياب وليست حكمًا إيجابيًا.</span></li>
+<li><b>limit-5</b> — “non_compliant” is unreachable until the pack ships a blocking rule backed by fetched, hashed primary sources.<br><span class="ar" dir="rtl">«non_compliant» غير قابل للوصول حتى تصدر الحزمة قاعدة مانعة تستند إلى مصادر أصلية مُجلبة ولها بصمة sha256 مسجَّلة.</span></li>
+<li><b>limit-6</b> — Runs are single-run, stateless; nothing accumulates across runs.<br><span class="ar" dir="rtl">التشغيلات مفردة وغير حالتية؛ لا يتراكم شيء بين عمليات التشغيل.</span></li>
+<li><b>limit-7</b> — Timestamps are local wall clock — provenance metadata only, never verdict inputs.<br><span class="ar" dir="rtl">التوقيتات من ساعة الجهاز المحلية — بيانات إثبات أصل فقط، وليست مدخلات لأي حكم.</span></li>
+<li><b>limit-8</b> — The workbook is a drafting aid; verdicts are proposals pending human review and sign-off; not legal or sharia advice.<br><span class="ar" dir="rtl">الدفتر أداة مساعدة للإعداد؛ الأحكام مقترحات تنتظر المراجعة البشرية والاعتماد؛ ليست مشورة قانونية أو شرعية.</span></li>
+</ol>
+<h2>Unverified sources (never requirements, never Gap)</h2><ul>
+<li><b>cit-aaoifi-ss8</b> — AAOIFI primary text not fetched by the research lane; standard number asserted via secondary sources only.</li>
+<li><b>cit-aaoifi-ss9</b> — AAOIFI primary text not fetched by the research lane.</li>
+<li><b>cit-aaoifi-ss17</b> — AAOIFI primary text not fetched by the research lane.</li>
+<li><b>cit-aaoifi-ss26</b> — AAOIFI primary text not fetched by the research lane.</li>
+<li><b>cit-quran-2-275</b> — Verse universally attested but no primary mushaf/database text was fetched and hashed by the research lane.</li>
+<li><b>cit-fiqh-consensus-gharar-maysir</b> — Consensus claim carried by secondary glossaries; no primary fiqh reference fetched.</li>
+<li><b>cit-grokipedia-murabaha</b> — Tertiary encyclopedia entry; not an authority.</li>
+<li><b>cit-halalwallet-glossary</b> — Secondary commercial glossary; not an authority.</li>
+<li><b>cit-law-20-2019</b> — Recorded whole-document sha256 9d2bded9... does not match the live MOJ primary; no verified quote + quote_sha256 on file. Re-promotion requires fetched primary bytes, document hash, verbatim NFC quote and quote hash (research correction brief).</li>
+<li><b>cit-law-18-2025</b> — No fetched whole-document sha256 and no verified quote + quote_sha256 on file; QFCRA translation URL retained as reference. Re-promotion requires fetched primary bytes and the quote contract.</li>
+<li><b>cit-qcb-portal</b> — Portal landing page never fetched and hashed; no verified quote on file. Regulator context only.</li>
+<li><b>cit-qcb-fintech</b> — Page never fetched and hashed; no verified quote on file. Regulator context only.</li>
+</ul>
+<h2>Run attestation (read-only, embedded verbatim)</h2>
+<pre>{
+  &quot;attestation_version&quot;: &quot;1.0.0&quot;,
+  &quot;clock_source&quot;: &quot;local&quot;,
+  &quot;disclaimer&quot;: {
+    &quot;ar&quot;: &quot;هذا الدفتر أداة مسودة. الأحكام فيه حقول مقترحة ينتجها رتبة قواعد حتمية؛ وليست فتوى ولا رأيا قانونيا ولا موافقة. يجب أن يكمل المراجع البشري المؤهل خانة التوقيع قبل أي استخدام.&quot;,
+    &quot;en&quot;: &quot;This workbook is a drafting aid. Its verdicts are proposed worksheet fields generated by a deterministic rule pack; they are not a sharia ruling, not a legal opinion, and not an approval. A qualified human reviewer must complete the sign-off block before any use.&quot;
+  },
+  &quot;engine_version&quot;: &quot;1.0.0&quot;,
+  &quot;exports&quot;: [
+    {
+      &quot;filename&quot;: &quot;scw-export-run-20260922T230100Z-eaf212d5.csv&quot;,
+      &quot;kind&quot;: &quot;csv&quot;,
+      &quot;sha256&quot;: &quot;86eed72fc65eb1c46d26dcc17d03ccfaed340b400f5afe91906bcd7135dc2128&quot;
+    }
+  ],
+  &quot;input_id&quot;: &quot;ci-22222222-2222-4222-8222-222222222222&quot;,
+  &quot;input_sha256&quot;: &quot;eaf212d550fdc109bf320c797e7fc9706ddc154e71f44d63aea364ae25396694&quot;,
+  &quot;offline_assertion&quot;: {
+    &quot;engine_is_deterministic&quot;: true,
+    &quot;llm_invoked&quot;: false,
+    &quot;network_calls_made&quot;: false
+  },
+  &quot;results_sha256&quot;: &quot;e4568efe35917d94f01a885b1dcab07792e0c76f1aa10873bdce6ae3e6e7f10e&quot;,
+  &quot;reviewer_signoff&quot;: {
+    &quot;completed&quot;: false,
+    &quot;review_date&quot;: &quot;&quot;,
+    &quot;reviewer_name&quot;: &quot;&quot;,
+    &quot;reviewer_role&quot;: &quot;&quot;,
+    &quot;statement&quot;: null
+  },
+  &quot;rule_pack&quot;: {
+    &quot;pack_id&quot;: &quot;scw-qatar-starter&quot;,
+    &quot;pack_version&quot;: &quot;0.2.0&quot;,
+    &quot;sha256&quot;: &quot;1ea71e863f05f7b8c1c2fd64ce0b58fd03de5a3512e25b15d4bee64451cae042&quot;,
+    &quot;status&quot;: &quot;draft&quot;
+  },
+  &quot;run_finished_utc&quot;: &quot;2026-09-22T23:01:00Z&quot;,
+  &quot;run_id&quot;: &quot;run-20260922T230100Z-eaf212d5&quot;,
+  &quot;run_started_utc&quot;: &quot;2026-09-22T23:01:00Z&quot;,
+  &quot;verdict_counts&quot;: {
+    &quot;compliant&quot;: 0,
+    &quot;doubtful&quot;: 1,
+    &quot;insufficient_input&quot;: 0,
+    &quot;non_compliant&quot;: 0,
+    &quot;out_of_coverage&quot;: 0
+  }
+}</pre>
+<div class="signoff"><h2>Reviewer sign-off (human only — the tool leaves this blank)</h2>
+<p>Reviewer name: ____________________ &nbsp; Role: ____________________ &nbsp; Date: ____________</p>
+<p>Statement: _______________________________________________</p>
+<p>Signature: ____________________ &nbsp; Completed: no</p>
+<p>Completed by the reviewer outside the tool — print or export this worksheet and fill it in. The tool can never fill these fields.</p></div>
+</body></html>

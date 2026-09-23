@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ahrazzle.github.io/sharia-docs/schemas/case-input-v1.schema.json",
+  "title": "Sharia-Compliance Workbook — Case Input v1 (LOCKED schema)",
+  "description": "Single normalized input shape for BOTH entry modes. Guided form items are structured at entry; free text is carried verbatim and segmented by the deterministic term matcher into proposed items that require operator confirmation. No LLM, no network.",
+  "type": "object",
+  "required": ["input_id", "mode", "created_utc", "rule_pack_ref"],
+  "additionalProperties": false,
+  "properties": {
+    "input_id": { "type": "string", "pattern": "^ci-[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$", "description": "UUIDv4, generated locally at entry." },
+    "mode": { "enum": ["guided", "free_text"] },
+    "created_utc": { "type": "string", "format": "date-time", "description": "Local wall clock; attestation records clock_source=local." },
+    "rule_pack_ref": {
+      "type": "object",
+      "required": ["pack_id", "pack_version"],
+      "additionalProperties": false,
+      "properties": {
+        "pack_id": { "type": "string" },
+        "pack_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    "guided": {
+      "type": "object",
+      "required": ["items"],
+      "additionalProperties": false,
+      "properties": {
+        "items": { "type": "array", "items": { "$ref": "#/$defs/guided_item" }, "minItems": 1 }
+      }
+    },
+    "free_text": {
+      "type": "object",
+      "required": ["text"],
+      "additionalProperties": false,
+      "properties": {
+        "text": { "type": "string", "minLength": 1 },
+        "lang_hint": { "enum": ["en", "ar", null] }
+      }
+    },
+    "operator_notes": { "type": ["string", "null"] }
+  },
+  "$defs": {
+    "guided_item": {
+      "type": "object",
+      "required": ["item_ref", "domain_id", "term_ids", "fields"],
+      "additionalProperties": false,
+      "properties": {
+        "item_ref": { "type": "string", "pattern": "^item-[a-z0-9-]{1,63}$" },
+        "domain_id": { "type": "string", "pattern": "^d_[a-z][a-z0-9_]{2,31}$" },
+        "term_ids": { "type": "array", "items": { "type": "string", "pattern": "^term-[a-z0-9-]{1,63}$" }, "minItems": 1 },
+        "label": { "type": ["string", "null"] },
+        "fields": {
+          "type": "object",
+          "description": "Domain worksheet fields, keys ^[a-z][a-z0-9_]{1,31}$; values string|boolean|number|null. Missing required fields drive 'insufficient_input'.",
+          "propertyNames": { "pattern": "^[a-z][a-z0-9_]{1,31}$" }
+        }
+      }
+    }
+  }
+}

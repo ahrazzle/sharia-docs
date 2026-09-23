@@ -1,0 +1,28 @@
+{
+  "input_id": "ci-11111111-1111-4111-8111-111111111111",
+  "mode": "guided",
+  "created_utc": "2026-09-22T23:00:00Z",
+  "rule_pack_ref": {
+    "pack_id": "scw-qatar-starter",
+    "pack_version": "0.2.0"
+  },
+  "guided": {
+    "items": [
+      {
+        "item_ref": "item-ex-ijara-ok",
+        "domain_id": "d_leasing",
+        "term_ids": ["term-ijara"],
+        "label": "Ijara equipment lease, owner declared",
+        "fields": { "asset_owner": "lessor", "lease_term_months": 60, "rent_amount": 12000 }
+      },
+      {
+        "item_ref": "item-ex-ijara-noowner",
+        "domain_id": "d_leasing",
+        "term_ids": ["term-ijara"],
+        "label": "Ijara vehicle lease, owner not yet entered",
+        "fields": { "lease_term_months": 36 }
+      }
+    ]
+  },
+  "operator_notes": "Worked example: one complete ijara worksheet row (doubtful, advisory) and one row missing its required field (insufficient_input)."
+}

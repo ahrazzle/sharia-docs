@@ -1,0 +1,13 @@
+# SCW single-run CSV export v1
+# run_id,run-20260922T230100Z-eaf212d5
+# input_id,ci-22222222-2222-4222-8222-222222222222
+# rule_pack_id,scw-qatar-starter
+# rule_pack_version,0.2.0
+# rule_pack_sha256,1ea71e863f05f7b8c1c2fd64ce0b58fd03de5a3512e25b15d4bee64451cae042
+# results_sha256,e4568efe35917d94f01a885b1dcab07792e0c76f1aa10873bdce6ae3e6e7f10e
+# input_status,unconfirmed input
+item_ref,domain_id,term_ids,verdict_proposed,confirmed_by_operator,verdict_recorded,rule_id,outcome,severity,trigger_type,match_text,start_offset,end_offset,citation_ids,citation_status,rationale_en,rationale_ar
+item-ft-murabaha,d_financing_contracts,term-murabaha,doubtful,false,,rule-murabaha-conditions,doubtful,advisory,term,murabaha,20,28,cit-aaoifi-ss8;cit-grokipedia-murabaha,unverified,"Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.",تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً.
+item-ft-murabaha,d_financing_contracts,term-murabaha,doubtful,false,,rule-interest-surface,doubtful,advisory,regex,interest,90,98,cit-quran-2-275,unverified,English-language 'interest' is treated as a surface trigger for riba review; same unverified-citation downgrade as rule-riba-term applies.,لفظ interest بالإنجليزية يعد مؤشرا على الربا للمراجعة؛ ويسري عليه نفس تخفيض الشك لعدم توثيق الإسناد.
+item-ft-murabaha,d_financing_contracts,term-murabaha,doubtful,false,,rule-murabaha-conditions,doubtful,advisory,term,murabaha,151,159,cit-aaoifi-ss8;cit-grokipedia-murabaha,unverified,"Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.",تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً.
+item-ft-murabaha,d_financing_contracts,term-murabaha,doubtful,false,,rule-interest-surface,doubtful,advisory,regex,interest,193,201,cit-quran-2-275,unverified,English-language 'interest' is treated as a surface trigger for riba review; same unverified-citation downgrade as rule-riba-term applies.,لفظ interest بالإنجليزية يعد مؤشرا على الربا للمراجعة؛ ويسري عليه نفس تخفيض الشك لعدم توثيق الإسناد.

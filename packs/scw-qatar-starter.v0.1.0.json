@@ -1,0 +1,324 @@
+{
+  "pack_id": "scw-qatar-starter",
+  "schema_version": "1.1.0",
+  "pack_version": "0.2.0",
+  "created_utc": "2026-09-22T22:04:20Z",
+  "status": "draft",
+  "engine_min_version": "1.0.0",
+  "domains": [
+    {
+      "domain_id": "d_financing_contracts",
+      "label": { "en": "Financing contracts (murabaha and related sale-based structures)", "ar": "عقود التمويل (المرابحة وما في حكمها من العقود البيعية)" },
+      "required_fields": ["cost_price", "profit_margin"]
+    },
+    {
+      "domain_id": "d_leasing",
+      "label": { "en": "Leasing (ijara structures)", "ar": "التأجير (عقود الإجارة)" },
+      "required_fields": ["asset_owner"]
+    },
+    {
+      "domain_id": "d_takaful",
+      "label": { "en": "Cooperative insurance (takaful structures)", "ar": "التأمين التعاوني (صيغ التكافل)" },
+      "required_fields": ["contribution_model"]
+    },
+    {
+      "domain_id": "d_investments",
+      "label": { "en": "Investments (sukuk, musharakah, mudarabah and related instruments)", "ar": "الاستثمارات (الصكوك والمشاركة والمضاربة وما يتصل بها)" },
+      "required_fields": ["underlying_asset"]
+    }
+  ],
+  "lexicon": [
+    {
+      "term_id": "term-murabaha",
+      "en": "murabaha",
+      "ar": "مرابحة",
+      "transliteration": "murābaḥah",
+      "definition": { "en": "Sale at a disclosed cost-plus profit margin, payable on a deferred basis.", "ar": "بيع بأصل معلوم وربح معلوم بالثمن المؤجل." },
+      "domain_ids": ["d_financing_contracts"],
+      "citation_ids": ["cit-grokipedia-murabaha", "cit-halalwallet-glossary"]
+    },
+    {
+      "term_id": "term-ijara",
+      "en": "ijara",
+      "ar": "إجارة",
+      "transliteration": "ījārah",
+      "definition": { "en": "Lease contract: the lessor owns the asset and leases it for a predetermined rent.", "ar": "عقد تأجير: يملك المؤجر الأصل ويؤجره بأجر معلوم." },
+      "domain_ids": ["d_leasing"],
+      "citation_ids": ["cit-halalwallet-glossary"]
+    },
+    {
+      "term_id": "term-takaful",
+      "en": "takaful",
+      "ar": "تكافل",
+      "transliteration": "takāful",
+      "definition": { "en": "Cooperative risk-sharing via tabarru' contributions to a pooled fund.", "ar": "تعاون في تحمل المخاطر عبر اشتراكات تبرعية في صندوق مشترك." },
+      "domain_ids": ["d_takaful"],
+      "citation_ids": ["cit-aaoifi-ss26", "cit-halalwallet-glossary"]
+    },
+    {
+      "term_id": "term-tawarruq",
+      "en": "tawarruq",
+      "ar": "تورق",
+      "transliteration": "tawarruq",
+      "definition": { "en": "Organized commodity murabaha for liquidity generation; contested among schools.", "ar": "شراء بثمن مؤجل للبيع نقدا لتحقيق السيولة؛ فيه خلاف بين المذاهب." },
+      "domain_ids": ["d_financing_contracts", "d_investments"],
+      "citation_ids": ["cit-halalwallet-glossary"]
+    },
+    {
+      "term_id": "term-musharakah",
+      "en": "musharakah",
+      "ar": "شراكة",
+      "transliteration": "mushārakah",
+      "definition": { "en": "Joint venture or co-ownership with shared profit and loss.", "ar": "اشتراك في رأس المال مع الربح والخسارة." },
+      "domain_ids": ["d_investments"],
+      "citation_ids": ["cit-halalwallet-glossary"]
+    },
+    {
+      "term_id": "term-mudarabah",
+      "en": "mudarabah",
+      "ar": "مضاربة",
+      "transliteration": "muḍārabah",
+      "definition": { "en": "Profit-sharing investment: capital provider and manager; loss borne by capital provider.", "ar": "عقد بين رب المال والعامل: الربح بشروط والخسارة على رب المال." },
+      "domain_ids": ["d_investments"],
+      "citation_ids": ["cit-halalwallet-glossary"]
+    },
+    {
+      "term_id": "term-sukuk",
+      "en": "sukuk",
+      "ar": "صكوك",
+      "transliteration": "ṣukūk",
+      "definition": { "en": "Certificates of ownership in an underlying asset or venture, income-bearing rather than debt-bearing.", "ar": "شهادات ملكية في أصل أو مشروع، تدر دخلا لا دينا." },
+      "domain_ids": ["d_investments"],
+      "citation_ids": ["cit-aaoifi-ss17"]
+    },
+    {
+      "term_id": "term-riba",
+      "en": "riba",
+      "ar": "ربا",
+      "transliteration": "ribā",
+      "definition": { "en": "Any predetermined guaranteed return on a loan; prohibited.", "ar": "كل زيادة مشروطة في قرض؛ محرمة." },
+      "domain_ids": ["d_financing_contracts", "d_leasing", "d_takaful", "d_investments"],
+      "citation_ids": ["cit-quran-2-275"]
+    },
+    {
+      "term_id": "term-gharar",
+      "en": "gharar",
+      "ar": "غرر",
+      "transliteration": "gharar",
+      "definition": { "en": "Excessive uncertainty or ambiguity in contract terms.", "ar": "جهالة أو غموض زائد في أركان العقد." },
+      "domain_ids": ["d_financing_contracts", "d_takaful", "d_investments"],
+      "citation_ids": ["cit-fiqh-consensus-gharar-maysir"]
+    },
+    {
+      "term_id": "term-maysir",
+      "en": "maysir",
+      "ar": "ميسر",
+      "transliteration": "maysir",
+      "definition": { "en": "Gambling or chance-based gain; prohibited.", "ar": "المراهنة واكتساب الحظ؛ محرم." },
+      "domain_ids": ["d_financing_contracts", "d_takaful", "d_investments"],
+      "citation_ids": ["cit-fiqh-consensus-gharar-maysir"]
+    }
+  ],
+  "citations": [
+    {
+      "citation_id": "cit-law-20-2019",
+      "status": "unverified",
+      "title": "Qatar Law No. 20 of 2019 on Combating Money Laundering and Terrorism Financing (MOJ official Arabic PDF)",
+      "url": "https://moj.gov.qa/sites/default/files/2026-01/Law%20No.%20%2820%29%20of%202019%20on%20the%20Promulgation%20of%20Anti-Money%20Laundering%20and%20Terrorism%20Financing%20Law.pdf",
+      "fetch_date": "2026-09-22",
+      "note": "Provenance and record-keeping context only; carries no sharia-substantive rule in this pack. Promulgated 11 September 2019 (12/01/1441 A.H.); effective the day after Official Gazette publication per Article 5 (research correction brief, items 1-2). Demoted from verified 2026-09-23: the recorded whole-document hash did not match the live primary; re-promotion requires fetched primary bytes, document hash, verbatim NFC quote and quote hash."
+    },
+    {
+      "citation_id": "cit-law-18-2025",
+      "status": "unverified",
+      "title": "Qatar Law No. 18 of 2025 amending provisions of the AML/CFT Law (QFCRA English translation PDF)",
+      "url": "https://www.qfcra.com/en-us/AML%20Law%20and%20Legislation/Translated-Law%20No%2018%20of%202025%20amended%20provision%20of%20AML-CFT%20Law%20No%202_EN.pdf",
+      "fetch_date": "2026-09-22",
+      "note": "Provenance context only. Genealogy per the Law 18/2025 recitals: Law No. 20 of 2019 as amended by Decree-Law No. 19/2021 (research correction brief, item 9). Effective date unverified against the Official Gazette."
+    },
+    {
+      "citation_id": "cit-qcb-portal",
+      "status": "unverified",
+      "title": "Qatar Central Bank — main portal",
+      "url": "https://qcb.gov.qa/",
+      "fetch_date": "2026-09-22",
+      "note": "Regulator context for the domestic Islamic banking track. Portal landing page never fetched and hashed; no verified quote on file."
+    },
+    {
+      "citation_id": "cit-qcb-fintech",
+      "status": "unverified",
+      "title": "Qatar Central Bank — Financial Technology page (sandbox, AI guideline, BNPL regulation)",
+      "url": "https://qcb.gov.qa/en/pages/financialtechnology.aspx",
+      "fetch_date": "2026-09-22",
+      "note": "Regulator context; carries no sharia-substantive rule in this pack. Page never fetched and hashed; no verified quote on file."
+    },
+    {
+      "citation_id": "cit-aaoifi-ss8",
+      "status": "unverified",
+      "title": "AAOIFI Sharia Standard No. 8 — Murabaha (referenced via secondary sources; AAOIFI primary text not fetched)",
+      "url": "https://grokipedia.com/page/Murabaha",
+      "fetch_date": "2026-09-22",
+      "note": "Standard number and conditions asserted by secondary sources only. Verifying against the AAOIFI primary text is a prerequisite before any rule citing it may become blocking."
+    },
+    {
+      "citation_id": "cit-aaoifi-ss9",
+      "status": "unverified",
+      "title": "AAOIFI Sharia Standard No. 9 — Ijara (referenced via secondary sources; AAOIFI primary text not fetched)",
+      "url": "https://almaazmilawyers.com/practices/islamic-finance",
+      "fetch_date": "2026-09-22",
+      "note": "Same verification prerequisite as cit-aaoifi-ss8."
+    },
+    {
+      "citation_id": "cit-aaoifi-ss17",
+      "status": "unverified",
+      "title": "AAOIFI Sharia Standard No. 17 — Investment Sukuk (referenced via secondary sources; AAOIFI primary text not fetched)",
+      "url": "https://www.halalwallet.us/glossary",
+      "fetch_date": "2026-09-22",
+      "note": "Same verification prerequisite as cit-aaoifi-ss8."
+    },
+    {
+      "citation_id": "cit-aaoifi-ss26",
+      "status": "unverified",
+      "title": "AAOIFI Sharia Standard No. 26 — Takaful (referenced via secondary sources; AAOIFI primary text not fetched)",
+      "url": "https://ijecm.co.uk/wp-content/uploads/2015/04/3434.pdf",
+      "fetch_date": "2026-09-22",
+      "note": "Same verification prerequisite as cit-aaoifi-ss8."
+    },
+    {
+      "citation_id": "cit-quran-2-275",
+      "status": "unverified",
+      "title": "Quran 2:275 ('Allah has permitted trade and forbidden riba') — primary mushaf text not fetched by the research lane",
+      "url": "https://quran.com/2/275",
+      "fetch_date": "2026-09-22",
+      "note": "The verse reference is universally attested but the research lane did not fetch and hash a primary text. Fetching and hashing a primary source is the prerequisite before rule-riba-term / rule-interest-surface may become blocking."
+    },
+    {
+      "citation_id": "cit-fiqh-consensus-gharar-maysir",
+      "status": "unverified",
+      "title": "Gharar and maysir prohibitions — universal fiqh consensus, cited via secondary glossaries only",
+      "url": "https://www.halalwallet.us/glossary",
+      "fetch_date": "2026-09-22",
+      "note": "No single primary URL established by the research lane; conservative: stays unverified until a primary fiqh reference is fetched."
+    },
+    {
+      "citation_id": "cit-grokipedia-murabaha",
+      "status": "unverified",
+      "title": "Grokipedia: Murabaha (tertiary encyclopedia entry)",
+      "url": "https://grokipedia.com/page/Murabaha",
+      "fetch_date": "2026-09-22"
+    },
+    {
+      "citation_id": "cit-halalwallet-glossary",
+      "status": "unverified",
+      "title": "HalalWallet glossary (secondary commercial glossary)",
+      "url": "https://www.halalwallet.us/glossary",
+      "fetch_date": "2026-09-22"
+    }
+  ],
+  "unverified_sources": [
+    { "citation_id": "cit-aaoifi-ss8", "reason": "AAOIFI primary text not fetched by the research lane; standard number asserted via secondary sources only." },
+    { "citation_id": "cit-aaoifi-ss9", "reason": "AAOIFI primary text not fetched by the research lane." },
+    { "citation_id": "cit-aaoifi-ss17", "reason": "AAOIFI primary text not fetched by the research lane." },
+    { "citation_id": "cit-aaoifi-ss26", "reason": "AAOIFI primary text not fetched by the research lane." },
+    { "citation_id": "cit-quran-2-275", "reason": "Verse universally attested but no primary mushaf/database text was fetched and hashed by the research lane." },
+    { "citation_id": "cit-fiqh-consensus-gharar-maysir", "reason": "Consensus claim carried by secondary glossaries; no primary fiqh reference fetched." },
+    { "citation_id": "cit-grokipedia-murabaha", "reason": "Tertiary encyclopedia entry; not an authority." },
+    { "citation_id": "cit-halalwallet-glossary", "reason": "Secondary commercial glossary; not an authority." },
+    { "citation_id": "cit-law-20-2019", "reason": "Recorded whole-document sha256 9d2bded9... does not match the live MOJ primary; no verified quote + quote_sha256 on file. Re-promotion requires fetched primary bytes, document hash, verbatim NFC quote and quote hash (research correction brief)." },
+    { "citation_id": "cit-law-18-2025", "reason": "No fetched whole-document sha256 and no verified quote + quote_sha256 on file; QFCRA translation URL retained as reference. Re-promotion requires fetched primary bytes and the quote contract." },
+    { "citation_id": "cit-qcb-portal", "reason": "Portal landing page never fetched and hashed; no verified quote on file. Regulator context only." },
+    { "citation_id": "cit-qcb-fintech", "reason": "Page never fetched and hashed; no verified quote on file. Regulator context only." }
+  ],
+  "rules": [
+    {
+      "rule_id": "rule-murabaha-conditions",
+      "domain_ids": ["d_financing_contracts"],
+      "outcome": "doubtful",
+      "severity": "advisory",
+      "trigger": { "type": "term", "term_ids": ["term-murabaha"] },
+      "rationale": { "en": "Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.", "ar": "تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً." },
+      "citation_ids": ["cit-aaoifi-ss8", "cit-grokipedia-murabaha"],
+      "status": "active"
+    },
+    {
+      "rule_id": "rule-ijara-ownership",
+      "domain_ids": ["d_leasing"],
+      "outcome": "doubtful",
+      "severity": "advisory",
+      "trigger": { "type": "term", "term_ids": ["term-ijara"] },
+      "rationale": { "en": "Ijara requires the lessor to retain ownership and major risk during the lease term; the engine cannot verify the worksheet's asset_owner assertion against a verified source, so the item is flagged doubtful.", "ar": "تتطلب الإجارة بقاء الملكية والضمان للمؤجر خلال مدة العقد؛ ولا يستطيع المحرك التحقق من ذلك من مصدر موثق، فتُعلَّم البنود بالشك." },
+      "citation_ids": ["cit-aaoifi-ss9"],
+      "status": "active"
+    },
+    {
+      "rule_id": "rule-takaful-tabarru",
+      "domain_ids": ["d_takaful"],
+      "outcome": "doubtful",
+      "severity": "advisory",
+      "trigger": { "type": "term", "term_ids": ["term-takaful"] },
+      "rationale": { "en": "Takaful requires tabarru'-based contributions and Shariah-screened investment of the fund; the engine cannot verify the declared contribution_model against a verified source, so the item is flagged doubtful.", "ar": "يتطلب التكافل اشتراكات تبرعية واستثمارا شرعيا للصندوق؛ ولا يستطيع المحرك التحقق من نموذج الاشتراك من مصدر موثق، فتُعلَّم البنود بالشك." },
+      "citation_ids": ["cit-aaoifi-ss26"],
+      "status": "active"
+    },
+    {
+      "rule_id": "rule-tawarruq-contested",
+      "domain_ids": ["d_financing_contracts", "d_investments"],
+      "outcome": "doubtful",
+      "severity": "advisory",
+      "trigger": { "type": "term", "term_ids": ["term-tawarruq"] },
+      "rationale": { "en": "Tawarruq is contested among the schools; any appearance is flagged doubtful for scholar review, never resolved by this pack.", "ar": "التورق من المسائل الخلافية بين المذاهب؛ كل ورود له يُعلَّم بالشك لمراجعة أهل العلم." },
+      "citation_ids": ["cit-halalwallet-glossary"],
+      "status": "active"
+    },
+    {
+      "rule_id": "rule-riba-term",
+      "domain_ids": ["d_financing_contracts", "d_leasing", "d_takaful", "d_investments"],
+      "outcome": "doubtful",
+      "severity": "advisory",
+      "trigger": { "type": "term", "term_ids": ["term-riba"] },
+      "rationale": { "en": "The riba prohibition is central and near-universal, but the pack's citation for it is unverified, so the rule is advisory and downgraded to doubtful until a primary text is fetched and hashed; it can never emit non_compliant in this state.", "ar": "تحريم الربا من الأصول المقررة، لكن إسناد الحزمة إليه غير موثق بعد، فتُعد القاعدة تنبيها وتُخفَّض إلى الشك حتى توثيق النص الأصلي." },
+      "citation_ids": ["cit-quran-2-275"],
+      "status": "active"
+    },
+    {
+      "rule_id": "rule-interest-surface",
+      "domain_ids": ["d_financing_contracts", "d_leasing", "d_takaful", "d_investments"],
+      "outcome": "doubtful",
+      "severity": "advisory",
+      "trigger": { "type": "regex", "pattern": "\\binterest\\b", "flags": "i" },
+      "rationale": { "en": "English-language 'interest' is treated as a surface trigger for riba review; same unverified-citation downgrade as rule-riba-term applies.", "ar": "لفظ interest بالإنجليزية يعد مؤشرا على الربا للمراجعة؛ ويسري عليه نفس تخفيض الشك لعدم توثيق الإسناد." },
+      "citation_ids": ["cit-quran-2-275"],
+      "status": "active"
+    },
+    {
+      "rule_id": "rule-gharar-term",
+      "domain_ids": ["d_financing_contracts", "d_takaful", "d_investments"],
+      "outcome": "doubtful",
+      "severity": "advisory",
+      "trigger": { "type": "term", "term_ids": ["term-gharar"] },
+      "rationale": { "en": "Excessive uncertainty is flagged for human review; the pack's citation is unverified, so advisory only.", "ar": "الغرر الزائد يُعلَّم للمراجعة البشرية؛ الإسناد غير موثق فتُعد القاعدة تنبيها فقط." },
+      "citation_ids": ["cit-fiqh-consensus-gharar-maysir"],
+      "status": "active"
+    },
+    {
+      "rule_id": "rule-maysir-term",
+      "domain_ids": ["d_financing_contracts", "d_takaful", "d_investments"],
+      "outcome": "doubtful",
+      "severity": "advisory",
+      "trigger": { "type": "term", "term_ids": ["term-maysir"] },
+      "rationale": { "en": "Chance-based gain is flagged for human review; the pack's citation is unverified, so advisory only.", "ar": "المراهنة يُعلَّم للمراجعة البشرية؛ الإسناد غير موثق فتُعد القاعدة تنبيها فقط." },
+      "citation_ids": ["cit-fiqh-consensus-gharar-maysir"],
+      "status": "active"
+    },
+    {
+      "rule_id": "rule-missing-cost-price",
+      "domain_ids": ["d_financing_contracts"],
+      "outcome": "doubtful",
+      "severity": "advisory",
+      "trigger": { "type": "field_empty", "field": "cost_price" },
+      "rationale": { "en": "A murabaha-adjacent financing item without a declared cost_price cannot be assessed; the missing worksheet field is recorded as exact trigger evidence.", "ar": "بند تمويل بلا سعر تكلفة معلن لا يمكن تقييمه؛ يُثبَت غياب الحقل كدليل محدد." },
+      "citation_ids": ["cit-aaoifi-ss8"],
+      "status": "active"
+    }
+  ]
+}

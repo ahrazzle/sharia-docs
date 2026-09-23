@@ -1,0 +1,13 @@
+# SCW single-run CSV export v1
+# run_id,run-20260922T230200Z-9bbea587
+# input_id,ci-33333333-3333-4333-8333-333333333333
+# rule_pack_id,scw-qatar-starter
+# rule_pack_version,0.2.0
+# rule_pack_sha256,1ea71e863f05f7b8c1c2fd64ce0b58fd03de5a3512e25b15d4bee64451cae042
+# results_sha256,d0dd6156e3f2422ae2afc0d5ceee6d7db763604043c28a673bce65f0dd56f86d
+# input_status,unconfirmed input
+item_ref,domain_id,term_ids,verdict_proposed,confirmed_by_operator,verdict_recorded,rule_id,outcome,severity,trigger_type,match_text,start_offset,end_offset,citation_ids,citation_status,rationale_en,rationale_ar
+item-ft-takaful,d_takaful,term-takaful,doubtful,false,,rule-takaful-tabarru,doubtful,advisory,term,تكافل,8,13,cit-aaoifi-ss26,unverified,"Takaful requires tabarru'-based contributions and Shariah-screened investment of the fund; the engine cannot verify the declared contribution_model against a verified source, so the item is flagged doubtful.",يتطلب التكافل اشتراكات تبرعية واستثمارا شرعيا للصندوق؛ ولا يستطيع المحرك التحقق من نموذج الاشتراك من مصدر موثق، فتُعلَّم البنود بالشك.
+item-ft-takaful,d_takaful,term-takaful,doubtful,false,,rule-takaful-tabarru,doubtful,advisory,term,takaful,62,69,cit-aaoifi-ss26,unverified,"Takaful requires tabarru'-based contributions and Shariah-screened investment of the fund; the engine cannot verify the declared contribution_model against a verified source, so the item is flagged doubtful.",يتطلب التكافل اشتراكات تبرعية واستثمارا شرعيا للصندوق؛ ولا يستطيع المحرك التحقق من نموذج الاشتراك من مصدر موثق، فتُعلَّم البنود بالشك.
+item-ft-takaful,d_takaful,term-takaful,doubtful,false,,rule-gharar-term,doubtful,advisory,term,gharar,160,166,cit-fiqh-consensus-gharar-maysir,unverified,"Excessive uncertainty is flagged for human review; the pack's citation is unverified, so advisory only.",الغرر الزائد يُعلَّم للمراجعة البشرية؛ الإسناد غير موثق فتُعد القاعدة تنبيها فقط.
+item-ft-gharar,d_financing_contracts,term-gharar,doubtful,false,,rule-gharar-term,doubtful,advisory,term,gharar,160,166,cit-fiqh-consensus-gharar-maysir,unverified,"Excessive uncertainty is flagged for human review; the pack's citation is unverified, so advisory only.",الغرر الزائد يُعلَّم للمراجعة البشرية؛ الإسناد غير موثق فتُعد القاعدة تنبيها فقط.

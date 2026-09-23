@@ -1,0 +1,14 @@
+{
+  "input_id": "ci-8d20b6f4-5c3e-4f9a-b1d7-6a92e4c08d55",
+  "mode": "free_text",
+  "created_utc": "2026-09-22T22:12:00Z",
+  "rule_pack_ref": {
+    "pack_id": "scw-qatar-starter",
+    "pack_version": "0.2.0"
+  },
+  "free_text": {
+    "text": "This term sheet proposes a murabaha facility for equipment purchase with the profit margin disclosed at signing. A parallel ijara covers the same assets. The client also asked about مرابحة pricing and whether the fund's takaful wrapper is acceptable. Interest on the bridging loan is 5 percent. The desk also wants exposure to crypto futures.",
+    "lang_hint": "en"
+  },
+  "operator_notes": "Mixed English/Arabic free text exercising term matching, regex trigger, and an unmatched out-of-scope request."
+}

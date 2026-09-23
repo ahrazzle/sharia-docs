@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ahrazzle.github.io/sharia-docs/schemas/run-attestation-v1.schema.json",
+  "title": "Sharia-Compliance Workbook — Run Attestation v1 (LOCKED schema)",
+  "description": "Single-run receipt embedded in every export. Carries the rule-pack identity + sha256, the offline assertion, export hashes for JSON and CSV, and a reviewer sign-off block the tool ALWAYS leaves blank. The HTML export embeds this attestation; its own hash is therefore computed post-hoc and is NOT inside the attestation (no circularity).",
+  "type": "object",
+  "required": ["attestation_version", "run_id", "clock_source", "run_started_utc", "run_finished_utc", "offline_assertion", "input_id", "input_sha256", "rule_pack", "engine_version", "results_sha256", "verdict_counts", "exports", "reviewer_signoff", "disclaimer"],
+  "additionalProperties": false,
+  "properties": {
+    "attestation_version": { "const": "1.0.0" },
+    "run_id": {
+      "type": "string",
+      "pattern": "^run-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{8}$",
+      "description": "run-<UTC compact timestamp>-<first 8 hex of input_sha256>. Locally derivable, no RNG dependency."
+    },
+    "clock_source": { "const": "local", "description": "MVP clocks are the local wall clock; they are provenance metadata only, never used in verdict logic." },
+    "run_started_utc": { "type": "string", "format": "date-time" },
+    "run_finished_utc": { "type": "string", "format": "date-time" },
+    "offline_assertion": {
+      "type": "object",
+      "required": ["network_calls_made", "engine_is_deterministic", "llm_invoked"],
+      "additionalProperties": false,
+      "properties": {
+        "network_calls_made": { "const": false },
+        "engine_is_deterministic": { "const": true },
+        "llm_invoked": { "const": false }
+      }
+    },
+    "input_id": { "type": "string", "pattern": "^ci-[0-9a-f-]{36}$" },
+    "input_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$", "description": "sha256 over canonical JSON of the case-input document." },
+    "rule_pack": {
+      "type": "object",
+      "required": ["pack_id", "pack_version", "sha256", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "pack_id": { "type": "string" },
+        "pack_version": { "type": "string" },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "status": { "enum": ["draft", "stable", "retired"] }
+      }
+    },
+    "engine_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "results_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$", "description": "sha256 over canonical JSON of the case-result document." },
+    "verdict_counts": {
+      "type": "object",
+      "required": ["compliant", "non_compliant", "doubtful", "out_of_coverage", "insufficient_input"],
+      "additionalProperties": false,
+      "properties": {
+        "compliant": { "type": "integer", "minimum": 0 },
+        "non_compliant": { "type": "integer", "minimum": 0 },
+        "doubtful": { "type": "integer", "minimum": 0 },
+        "out_of_coverage": { "type": "integer", "minimum": 0 },
+        "insufficient_input": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "exports": {
+      "type": "array",
+      "description": "Only the CSV export's hash may live here: the CSV carries a fixed header (run_id, input_id, rule_pack id/version/sha256, results_sha256) and not the attestation itself, so its hash is embeddable without circularity. The JSON export = {case_result, run_attestation} and the HTML export both embed this attestation verbatim; their file hashes are therefore recorded post-hoc in the delivery receipt and recomputed at verification time, never inside the attestation.",
+      "items": {
+        "type": "object",
+        "required": ["kind", "filename", "sha256"],
+        "additionalProperties": false,
+        "properties": {
+          "kind": { "const": "csv" },
+          "filename": { "type": "string", "minLength": 1 },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+        }
+      },
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "reviewer_signoff": {
+      "description": "HUMAN FIELD. The tool writes exactly this blank structure and NEVER populates it. No export is valid with a tool-filled sign-off (acceptance criterion A8).",
+      "type": "object",
+      "required": ["reviewer_name", "reviewer_role", "review_date", "statement", "completed"],
+      "additionalProperties": false,
+      "properties": {
+        "reviewer_name": { "const": "" },
+        "reviewer_role": { "const": "" },
+        "review_date": { "const": "" },
+        "statement": { "const": null },
+        "completed": { "const": false }
+      }
+    },
+    "disclaimer": {
+      "type": "object",
+      "required": ["en"],
+      "additionalProperties": false,
+      "properties": {
+        "en": { "type": "string", "minLength": 20 },
+        "ar": { "type": ["string", "null"] }
+      }
+    }
+  }
+}

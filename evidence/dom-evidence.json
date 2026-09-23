@@ -1,0 +1,40 @@
+{
+  "attestation_run": "Input status: unconfirmed input — this document has not been reviewed and carries no reviewer sign-off.\nحالة المدخلات: مدخلات غير مؤكدة — لم تُراجع هذه الوثيقة ولا تحمل اعتماد مراجع.\n\nRun run-20260923T024444Z-165466f7 · input 165466f746c3… · results cff606a76e9a… · pack 1ea71e863f05…\nNetwork calls: none · Deterministic: yes · LLM invoked: none\n\n{\n  \"attestation_version\": \"1.0.0\",\n  \"run_id\": \"run-",
+  "chips": "Pack scw-qatar-starter v0.2.0 · sha 1ea71e863f05…DRAFT PACK · حزمة مسودة0 blocking rules · لا قواعد مانعةOffline — no network calls",
+  "confirm_flow": {
+    "after": "1 / 3 readings confirmed",
+    "before": "0 / 3 readings confirmed",
+    "clicked": true
+  },
+  "golden_text_len": 0,
+  "guided_checked_count": 0,
+  "guided_helper_en": true,
+  "guided_item_count": 1,
+  "guided_refusal_exp_disabled": true,
+  "guided_refusal_pane": "pane-intake",
+  "guided_refusal_result_null": true,
+  "guided_refusal_warn": "Item 1: no structure term selected — check at least one term. The workbook will not choose one for you. البند 1: لم يُختَر أي مصطلح بنية — حدّد مصطلحًا واحدًا على الأقل. لن تختار الورقة أي مصطلح نيابة عنك.",
+  "guided_refusal_warn_role": "alert",
+  "limits_count": 8,
+  "pack_ok": true,
+  "pack_sha_live": "1ea71e863f05f7b8c1c2fd64ce0b58fd03de5a3512e25b15d4bee64451cae042",
+  "rail": [
+    "Case input / مدخلات الحالة",
+    "Structure reading / قراءة البنية",
+    "Mapping worksheet / ورقة المطابقة",
+    "Attestation pack / حزمة الإشهاد",
+    "Unverified list / قائمة غير الموثق"
+  ],
+  "signoff_text": "Reviewer sign-off (human only — the tool leaves this blank)\n\nReviewer name: ____________________   Reviewer role: ____________________   Review date: ____________\n\nStatement: _________________________",
+  "status_label_count": 2,
+  "status_label_printable": true,
+  "status_label_text": "Input status: unconfirmed input — this document has not been reviewed and carries no reviewer sign-off.حالة المدخلات: مدخلات غير مؤكدة — لم تُراجع هذه الوثيقة ولا تحمل اعتماد مراجع.",
+  "status_label_visible": true,
+  "structure_items": 3,
+  "structure_meter": "0 / 3 readings confirmed",
+  "structure_visible": true,
+  "title": "Sharia-Compliance Workbook",
+  "unverified_rows": 12,
+  "worksheet_head": "Run run-20260923T024444Z-165466f7 · Proposed verdict counts: compliant 0 (Met); non_compliant 0 (Gap); doubtful 3 (Unverified); out_of_coverage 0 (Not applicable); insufficient_input 0 (Needs evidence)",
+  "worksheet_rows": 7
+}

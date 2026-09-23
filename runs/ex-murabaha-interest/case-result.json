@@ -1,0 +1,201 @@
+{
+  "schema_version": "1.0.0",
+  "input_id": "ci-22222222-2222-4222-8222-222222222222",
+  "rule_pack": {
+    "pack_id": "scw-qatar-starter",
+    "pack_version": "0.2.0",
+    "sha256": "1ea71e863f05f7b8c1c2fd64ce0b58fd03de5a3512e25b15d4bee64451cae042",
+    "status": "draft"
+  },
+  "engine_version": "1.0.0",
+  "items": [
+    {
+      "item_ref": "item-ft-murabaha",
+      "domain_id": "d_financing_contracts",
+      "term_ids": [
+        "term-murabaha"
+      ],
+      "verdict_proposed": "doubtful",
+      "confirmed_by_operator": false,
+      "verdict_recorded": null,
+      "evidence": [
+        {
+          "rule_id": "rule-murabaha-conditions",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term",
+            "term_id": "term-murabaha",
+            "surface_form": "murabaha",
+            "match_text": "murabaha",
+            "start_offset": 20,
+            "end_offset": 28
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss8",
+            "cit-grokipedia-murabaha"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.",
+            "ar": "تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً."
+          }
+        },
+        {
+          "rule_id": "rule-interest-surface",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "regex",
+            "pattern": "\\binterest\\b",
+            "match_text": "interest",
+            "start_offset": 90,
+            "end_offset": 98
+          },
+          "citation_ids": [
+            "cit-quran-2-275"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "English-language 'interest' is treated as a surface trigger for riba review; same unverified-citation downgrade as rule-riba-term applies.",
+            "ar": "لفظ interest بالإنجليزية يعد مؤشرا على الربا للمراجعة؛ ويسري عليه نفس تخفيض الشك لعدم توثيق الإسناد."
+          }
+        },
+        {
+          "rule_id": "rule-murabaha-conditions",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term",
+            "term_id": "term-murabaha",
+            "surface_form": "murabaha",
+            "match_text": "murabaha",
+            "start_offset": 151,
+            "end_offset": 159
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss8",
+            "cit-grokipedia-murabaha"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.",
+            "ar": "تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً."
+          }
+        },
+        {
+          "rule_id": "rule-interest-surface",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "regex",
+            "pattern": "\\binterest\\b",
+            "match_text": "interest",
+            "start_offset": 193,
+            "end_offset": 201
+          },
+          "citation_ids": [
+            "cit-quran-2-275"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "English-language 'interest' is treated as a surface trigger for riba review; same unverified-citation downgrade as rule-riba-term applies.",
+            "ar": "لفظ interest بالإنجليزية يعد مؤشرا على الربا للمراجعة؛ ويسري عليه نفس تخفيض الشك لعدم توثيق الإسناد."
+          }
+        }
+      ],
+      "unverified_findings": [
+        {
+          "rule_id": "rule-murabaha-conditions",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term",
+            "term_id": "term-murabaha",
+            "surface_form": "murabaha",
+            "match_text": "murabaha",
+            "start_offset": 20,
+            "end_offset": 28
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss8",
+            "cit-grokipedia-murabaha"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.",
+            "ar": "تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً."
+          }
+        },
+        {
+          "rule_id": "rule-interest-surface",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "regex",
+            "pattern": "\\binterest\\b",
+            "match_text": "interest",
+            "start_offset": 90,
+            "end_offset": 98
+          },
+          "citation_ids": [
+            "cit-quran-2-275"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "English-language 'interest' is treated as a surface trigger for riba review; same unverified-citation downgrade as rule-riba-term applies.",
+            "ar": "لفظ interest بالإنجليزية يعد مؤشرا على الربا للمراجعة؛ ويسري عليه نفس تخفيض الشك لعدم توثيق الإسناد."
+          }
+        },
+        {
+          "rule_id": "rule-murabaha-conditions",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term",
+            "term_id": "term-murabaha",
+            "surface_form": "murabaha",
+            "match_text": "murabaha",
+            "start_offset": 151,
+            "end_offset": 159
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss8",
+            "cit-grokipedia-murabaha"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.",
+            "ar": "تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً."
+          }
+        },
+        {
+          "rule_id": "rule-interest-surface",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "regex",
+            "pattern": "\\binterest\\b",
+            "match_text": "interest",
+            "start_offset": 193,
+            "end_offset": 201
+          },
+          "citation_ids": [
+            "cit-quran-2-275"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "English-language 'interest' is treated as a surface trigger for riba review; same unverified-citation downgrade as rule-riba-term applies.",
+            "ar": "لفظ interest بالإنجليزية يعد مؤشرا على الربا للمراجعة؛ ويسري عليه نفس تخفيض الشك لعدم توثيق الإسناد."
+          }
+        }
+      ],
+      "limits_applied": [
+        "single_run_scope",
+        "no_stemming_ar",
+        "unmatched_content_not_assessed",
+        "advisory_only_unverified_citations"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+=== 1. rule-pack gate (S1-S7 + engine compatibility) ===
+PACK OK  id=scw-qatar-starter version=0.2.0 sha256=1ea71e863f05f7b8c1c2fd64ce0b58fd03de5a3512e25b15d4bee64451cae042
+=== 2. test suite (41 checks, A1-A12 + A13 quote contract + A14 offsets + A15 labels) ===
+test_arabic_offsets_code_points (__main__.Bilingual) ... ok
+test_pack_pairs_and_gap_render (__main__.Bilingual) ... ok
+test_evidence_ordering_field_empty_first (__main__.Evidence) ... ok
+test_offsets_slice_back (__main__.Evidence) ... ok
+test_tampered_offset_detected (__main__.Evidence) ... ok
+test_attestation_reproduces_golden_vectors (__main__.ExportsAttestation) ... ok
+test_attestation_self_consistent (__main__.ExportsAttestation) ... ok
+test_csv_header_and_columns (__main__.ExportsAttestation) ... ok
+test_html_framing_limits_disclaimer (__main__.ExportsAttestation) ... ok
+test_html_no_external_resources (__main__.ExportsAttestation) ... ok
+test_signoff_blank_and_toolfill_rejected (__main__.ExportsAttestation) ... ok
+test_determinism (__main__.GoldenVectors) ... ok
+test_freetext_csv_rebuild_matches_golden (__main__.GoldenVectors) ... ok
+test_freetext_vector (__main__.GoldenVectors) ... ok
+test_guided_csv_rebuild_matches_golden (__main__.GoldenVectors) ... ok
+test_guided_vector (__main__.GoldenVectors) ... ok
+test_live_engine_stamps_own_version (__main__.GoldenVectors) ... ok
+test_pack_identity (__main__.GoldenVectors) ... ok
+test_gate_helper_copy_and_alert (__main__.GuidedNoDefault) ... ok
+test_no_default_term_injection (__main__.GuidedNoDefault) ... ok
+test_nfd_input_offsets_slice_nfc (__main__.NormalizationOffsets) ... ok
+test_no_network_imports_at_runtime (__main__.OfflineNoLLM) ... ok
+test_no_network_or_model_imports (__main__.OfflineNoLLM) ... ok
+test_p7a_structural_verified_without_quote (__main__.QuoteContract) ... ok
+test_p7b_semantic_quote_hash_mismatch (__main__.QuoteContract) ... ok
+test_p7c_semantic_nfd_quote_rejected (__main__.QuoteContract) ... ok
+test_p7d_semantic_verified_missing_sha (__main__.QuoteContract) ... ok
+test_p7e_positive_wellformed_verified (__main__.QuoteContract) ... ok
+test_p7f_pairing_unverified_half_pair (__main__.QuoteContract) ... ok
+test_old_engine_refused (__main__.Refusals) ... ok
+test_pack_version_mismatch_refused (__main__.Refusals) ... ok
+test_csv_label_row (__main__.StandingLabels) ... ok
+test_export_fence_no_reviewed_claim (__main__.StandingLabels) ... ok
+test_html_label_block (__main__.StandingLabels) ... ok
+test_json_label_via_run (__main__.StandingLabels) ... tests/test_scw.py:547: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/26/tt22z54s45b9wx307z93pmjw0000gn/T/tmp5wbq725m/scw-export-run-20260922T221000Z-7a3f7f6a.csv' mode='r' encoding='utf-8'>
+  csv_raw = io.open(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+tests/test_scw.py:552: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/26/tt22z54s45b9wx307z93pmjw0000gn/T/tmp5wbq725m/export.html' mode='r' encoding='utf-8'>
+  html_raw = io.open(os.path.join(d, "export.html"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_downgrade_mirror (__main__.UnverifiedGates) ... ok
+test_s2_blocks_unverified_blocking (__main__.UnverifiedGates) ... ok
+test_s4_unregistered_unverified (__main__.UnverifiedGates) ... ok
+test_closed_token_set_rejected (__main__.Verdicts) ... ok
+test_gloss_covers_all_tokens (__main__.Verdicts) ... ok
+test_non_compliant_unreachable_from_starter (__main__.Verdicts) ... ok
+
+----------------------------------------------------------------------
+Ran 41 tests in 0.093s
+
+OK
+engine=1.0.0 pack_sha=1ea71e863f05f7b8c1c2fd64ce0b58fd03de5a3512e25b15d4bee64451cae042
+76421183eaa6e28a2677335d996e1a79c578920605efa58997eb873bfb90515b  /var/folders/26/tt22z54s45b9wx307z93pmjw0000gn/T/tmp5wbq725m/case-result.json
+231e19eb11e3426a6ac15a14e994c5de61f5c334404a3e380db20077700e8869  /var/folders/26/tt22z54s45b9wx307z93pmjw0000gn/T/tmp5wbq725m/run-attestation.json
+6db6b1ed8eee5683c121029b1eaf235c585e1842633dc2929a2d9994f73db09a  /var/folders/26/tt22z54s45b9wx307z93pmjw0000gn/T/tmp5wbq725m/export.json
+f8fd782aa26616f86a0e07ee8da09e0ee3cbda485420d572f9e9b61b6a2375c4  /var/folders/26/tt22z54s45b9wx307z93pmjw0000gn/T/tmp5wbq725m/scw-export-run-20260922T221000Z-7a3f7f6a.csv
+e1f8f174f1cb3b5d5d50b2a5eacff6fe3fd98933be98e3578af04ba2d3a55537  /var/folders/26/tt22z54s45b9wx307z93pmjw0000gn/T/tmp5wbq725m/export.html
+run_id=run-20260922T221000Z-7a3f7f6a
+verdict_counts={'compliant': 1, 'non_compliant': 0, 'doubtful': 3, 'out_of_coverage': 1, 'insufficient_input': 1}
+=== 2b. JS/Python engine parity (5 vectors, canonical-identical) ===
+PASS sha abc
+PASS sha empty
+PASS sha pack-canon
+PASS tests/fixtures/case-input-guided.fixture.json canonical-identical sha=5c14fdb761883ff70c6b1143dc51a29e088c28610e2f0805dbafe068c761ed87
+PASS tests/fixtures/case-input-freetext.fixture.json canonical-identical sha=64e34f3c23ee20637671508f78c2dd70d0b4aa60ae652c91a827d34405c84906
+PASS examples/ex-ijara-guided.json canonical-identical sha=79c5d1ff95734fe6495bbbd725481a7d443156db1f1a55e31932d3faaa781f50
+PASS csv runs/ex-ijara-guided
+PASS examples/ex-murabaha-interest-freetext.json canonical-identical sha=e4568efe35917d94f01a885b1dcab07792e0c76f1aa10873bdce6ae3e6e7f10e
+PASS csv runs/ex-murabaha-interest
+PASS examples/ex-takaful-mixed-freetext.json canonical-identical sha=d0dd6156e3f2422ae2afc0d5ceee6d7db763604043c28a673bce65f0dd56f86d
+PASS csv runs/ex-takaful-mixed
+PARITY: all engine+sha+csv checks identical
+=== 3. end-to-end runs (pinned clocks => byte-reproducible) ===
+engine=1.0.0 pack_sha=1ea71e863f05f7b8c1c2fd64ce0b58fd03de5a3512e25b15d4bee64451cae042
+76421183eaa6e28a2677335d996e1a79c578920605efa58997eb873bfb90515b  runs/golden-guided/case-result.json
+231e19eb11e3426a6ac15a14e994c5de61f5c334404a3e380db20077700e8869  runs/golden-guided/run-attestation.json
+6db6b1ed8eee5683c121029b1eaf235c585e1842633dc2929a2d9994f73db09a  runs/golden-guided/export.json
+f8fd782aa26616f86a0e07ee8da09e0ee3cbda485420d572f9e9b61b6a2375c4  runs/golden-guided/scw-export-run-20260922T221000Z-7a3f7f6a.csv
+e1f8f174f1cb3b5d5d50b2a5eacff6fe3fd98933be98e3578af04ba2d3a55537  runs/golden-guided/export.html
+run_id=run-20260922T221000Z-7a3f7f6a
+verdict_counts={'compliant': 1, 'non_compliant': 0, 'doubtful': 3, 'out_of_coverage': 1, 'insufficient_input': 1}
+engine=1.0.0 pack_sha=1ea71e863f05f7b8c1c2fd64ce0b58fd03de5a3512e25b15d4bee64451cae042
+ab7ca8e22bb9213aa561e4e1ad0df7853b1baf8a8a733345d7f42460fe2f5654  runs/golden-freetext/case-result.json
+1a5df71dddff17c64c8dc02bef2fdd99963a5540886c9154d6ec066e05e01f2b  runs/golden-freetext/run-attestation.json
+58648c285405e6dcacfe36a66064e38981f207e7ed137ab64907f1ffc6f88fba  runs/golden-freetext/export.json
+635e17e931e6dbf14f1a28aa79b192d095b0a6a0968d903e1d6c87a941dcb8a1  runs/golden-freetext/scw-export-run-20260922T221200Z-2b935fef.csv
+0145817973a4b431b57b0bc0ad04d8b75ce7616f2eb9262cc2dde7123089cbdd  runs/golden-freetext/export.html
+run_id=run-20260922T221200Z-2b935fef
+verdict_counts={'compliant': 0, 'non_compliant': 0, 'doubtful': 3, 'out_of_coverage': 0, 'insufficient_input': 0}
+engine=1.0.0 pack_sha=1ea71e863f05f7b8c1c2fd64ce0b58fd03de5a3512e25b15d4bee64451cae042
+f3a8fab191ef2b0e13f77859a8ac529cde15426c9df92d44c0b2918b04dc9b03  runs/ex-ijara-guided/case-result.json
+238839be35093b8a308cc0f10a43585b2300a5fef10b3f5fc84c67f8426bce43  runs/ex-ijara-guided/run-attestation.json
+a47fbd1477298ed22483cee707594f4431a5d1224b5e196fbd9ae2ba74bd51bc  runs/ex-ijara-guided/export.json
+4afc043a9368c618bf4870bfa6cbc2f8d7ce36a533b59c55357e818d50883d30  runs/ex-ijara-guided/scw-export-run-20260922T230000Z-a04b6fd3.csv
+6752f5e011bf3d4f43218a6b23acf0979c9606e32ff6bf0b88099f4b5d04a4fb  runs/ex-ijara-guided/export.html
+run_id=run-20260922T230000Z-a04b6fd3
+verdict_counts={'compliant': 0, 'non_compliant': 0, 'doubtful': 1, 'out_of_coverage': 0, 'insufficient_input': 1}
+engine=1.0.0 pack_sha=1ea71e863f05f7b8c1c2fd64ce0b58fd03de5a3512e25b15d4bee64451cae042
+e3fa5402444a989227f76317ffeb2f2d47b598568a23e68489de69a8a1cd0722  runs/ex-murabaha-interest/case-result.json
+4a221b5112dbb5aa8b0da849e3c16fae9e33fdd26b4e09f6cc4cd2a0f4e90699  runs/ex-murabaha-interest/run-attestation.json
+72ac48ba0a3f0b75df30ac5f7ccb74e833821c5d485a3094ce3f8e1d249f0a6e  runs/ex-murabaha-interest/export.json
+86eed72fc65eb1c46d26dcc17d03ccfaed340b400f5afe91906bcd7135dc2128  runs/ex-murabaha-interest/scw-export-run-20260922T230100Z-eaf212d5.csv
+9ecec3dbd88cedfd05c52e098ae914d0604a027725d54b217fdd24e87b78bea4  runs/ex-murabaha-interest/export.html
+run_id=run-20260922T230100Z-eaf212d5
+verdict_counts={'compliant': 0, 'non_compliant': 0, 'doubtful': 1, 'out_of_coverage': 0, 'insufficient_input': 0}
+engine=1.0.0 pack_sha=1ea71e863f05f7b8c1c2fd64ce0b58fd03de5a3512e25b15d4bee64451cae042
+a93ccbbe61ff87d8abc4d5fac3dba23a546acfd3da8b3330fc9e724f216f901b  runs/ex-takaful-mixed/case-result.json
+7858b61db1d1fa16f31bf3dd7b0a456401f759ffa01b632168a3b48ed5e7ca97  runs/ex-takaful-mixed/run-attestation.json
+3a5bdc686bc19e5aa4c277359af37f7886dc7fd4d2836dbf75e47761b058fad7  runs/ex-takaful-mixed/export.json
+986fa2e42e6a922bdfeeb1a1f0f29e58679cff287edbdd2fb6511ec5cf132c72  runs/ex-takaful-mixed/scw-export-run-20260922T230200Z-9bbea587.csv
+b6e9d8e6021b9afb9e14fe8a5db81669404ef0ca22d3aab8a064015df823bdd6  runs/ex-takaful-mixed/export.html
+run_id=run-20260922T230200Z-9bbea587
+verdict_counts={'compliant': 0, 'non_compliant': 0, 'doubtful': 2, 'out_of_coverage': 0, 'insufficient_input': 0}
+=== 4. export hashes ===
+6752f5e011bf3d4f43218a6b23acf0979c9606e32ff6bf0b88099f4b5d04a4fb  runs/ex-ijara-guided/export.html
+a47fbd1477298ed22483cee707594f4431a5d1224b5e196fbd9ae2ba74bd51bc  runs/ex-ijara-guided/export.json
+9ecec3dbd88cedfd05c52e098ae914d0604a027725d54b217fdd24e87b78bea4  runs/ex-murabaha-interest/export.html
+72ac48ba0a3f0b75df30ac5f7ccb74e833821c5d485a3094ce3f8e1d249f0a6e  runs/ex-murabaha-interest/export.json
+b6e9d8e6021b9afb9e14fe8a5db81669404ef0ca22d3aab8a064015df823bdd6  runs/ex-takaful-mixed/export.html
+3a5bdc686bc19e5aa4c277359af37f7886dc7fd4d2836dbf75e47761b058fad7  runs/ex-takaful-mixed/export.json
+0145817973a4b431b57b0bc0ad04d8b75ce7616f2eb9262cc2dde7123089cbdd  runs/golden-freetext/export.html
+58648c285405e6dcacfe36a66064e38981f207e7ed137ab64907f1ffc6f88fba  runs/golden-freetext/export.json
+e1f8f174f1cb3b5d5d50b2a5eacff6fe3fd98933be98e3578af04ba2d3a55537  runs/golden-guided/export.html
+6db6b1ed8eee5683c121029b1eaf235c585e1842633dc2929a2d9994f73db09a  runs/golden-guided/export.json
+f3a8fab191ef2b0e13f77859a8ac529cde15426c9df92d44c0b2918b04dc9b03  runs/ex-ijara-guided/case-result.json
+e3fa5402444a989227f76317ffeb2f2d47b598568a23e68489de69a8a1cd0722  runs/ex-murabaha-interest/case-result.json
+a93ccbbe61ff87d8abc4d5fac3dba23a546acfd3da8b3330fc9e724f216f901b  runs/ex-takaful-mixed/case-result.json
+ab7ca8e22bb9213aa561e4e1ad0df7853b1baf8a8a733345d7f42460fe2f5654  runs/golden-freetext/case-result.json
+76421183eaa6e28a2677335d996e1a79c578920605efa58997eb873bfb90515b  runs/golden-guided/case-result.json
+238839be35093b8a308cc0f10a43585b2300a5fef10b3f5fc84c67f8426bce43  runs/ex-ijara-guided/run-attestation.json
+4a221b5112dbb5aa8b0da849e3c16fae9e33fdd26b4e09f6cc4cd2a0f4e90699  runs/ex-murabaha-interest/run-attestation.json
+7858b61db1d1fa16f31bf3dd7b0a456401f759ffa01b632168a3b48ed5e7ca97  runs/ex-takaful-mixed/run-attestation.json
+1a5df71dddff17c64c8dc02bef2fdd99963a5540886c9154d6ec066e05e01f2b  runs/golden-freetext/run-attestation.json
+231e19eb11e3426a6ac15a14e994c5de61f5c334404a3e380db20077700e8869  runs/golden-guided/run-attestation.json
+ALL DONE

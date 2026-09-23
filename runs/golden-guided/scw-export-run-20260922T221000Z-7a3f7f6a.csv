@@ -1,0 +1,16 @@
+# SCW single-run CSV export v1
+# run_id,run-20260922T221000Z-7a3f7f6a
+# input_id,ci-3f7a1c2e-9b4d-4a18-8e62-1c0d5f7a9b31
+# rule_pack_id,scw-qatar-starter
+# rule_pack_version,0.2.0
+# rule_pack_sha256,1ea71e863f05f7b8c1c2fd64ce0b58fd03de5a3512e25b15d4bee64451cae042
+# results_sha256,22f2f721f0843fba3efbc25e188981a8608ebf7f82f53799b6ea7bb60086008f
+# input_status,unconfirmed input
+item_ref,domain_id,term_ids,verdict_proposed,confirmed_by_operator,verdict_recorded,rule_id,outcome,severity,trigger_type,match_text,start_offset,end_offset,citation_ids,citation_status,rationale_en,rationale_ar
+item-g-murabaha,d_financing_contracts,term-murabaha,doubtful,true,,rule-murabaha-conditions,doubtful,advisory,term_ref,,,,cit-aaoifi-ss8;cit-grokipedia-murabaha,unverified,"Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.",تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً.
+item-g-ijara,d_leasing,term-ijara,doubtful,true,,rule-ijara-ownership,doubtful,advisory,term_ref,,,,cit-aaoifi-ss9,unverified,"Ijara requires the lessor to retain ownership and major risk during the lease term; the engine cannot verify the worksheet's asset_owner assertion against a verified source, so the item is flagged doubtful.",تتطلب الإجارة بقاء الملكية والضمان للمؤجر خلال مدة العقد؛ ولا يستطيع المحرك التحقق من ذلك من مصدر موثق، فتُعلَّم البنود بالشك.
+item-g-takaful,d_takaful,term-takaful,doubtful,true,,rule-takaful-tabarru,doubtful,advisory,term_ref,,,,cit-aaoifi-ss26,unverified,"Takaful requires tabarru'-based contributions and Shariah-screened investment of the fund; the engine cannot verify the declared contribution_model against a verified source, so the item is flagged doubtful.",يتطلب التكافل اشتراكات تبرعية واستثمارا شرعيا للصندوق؛ ولا يستطيع المحرك التحقق من نموذج الاشتراك من مصدر موثق، فتُعلَّم البنود بالشك.
+item-g-sukuk,d_investments,term-sukuk,compliant,true,,,,,,,,,,,,
+item-g-missing-cost,d_financing_contracts,term-murabaha,insufficient_input,true,,rule-missing-cost-price,doubtful,advisory,field_empty,,,,cit-aaoifi-ss8,unverified,A murabaha-adjacent financing item without a declared cost_price cannot be assessed; the missing worksheet field is recorded as exact trigger evidence.,بند تمويل بلا سعر تكلفة معلن لا يمكن تقييمه؛ يُثبَت غياب الحقل كدليل محدد.
+item-g-missing-cost,d_financing_contracts,term-murabaha,insufficient_input,true,,rule-murabaha-conditions,doubtful,advisory,term_ref,,,,cit-aaoifi-ss8;cit-grokipedia-murabaha,unverified,"Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.",تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً.
+item-g-crypto,d_investments,term-crypto-futures,out_of_coverage,true,,,,,,,,,,,,

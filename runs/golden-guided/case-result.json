@@ -1,0 +1,300 @@
+{
+  "schema_version": "1.0.0",
+  "input_id": "ci-3f7a1c2e-9b4d-4a18-8e62-1c0d5f7a9b31",
+  "rule_pack": {
+    "pack_id": "scw-qatar-starter",
+    "pack_version": "0.2.0",
+    "sha256": "1ea71e863f05f7b8c1c2fd64ce0b58fd03de5a3512e25b15d4bee64451cae042",
+    "status": "draft"
+  },
+  "engine_version": "1.0.0",
+  "items": [
+    {
+      "item_ref": "item-g-murabaha",
+      "domain_id": "d_financing_contracts",
+      "term_ids": [
+        "term-murabaha"
+      ],
+      "verdict_proposed": "doubtful",
+      "confirmed_by_operator": true,
+      "verdict_recorded": null,
+      "evidence": [
+        {
+          "rule_id": "rule-murabaha-conditions",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term_ref",
+            "term_id": "term-murabaha",
+            "surface_form": "murabaha"
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss8",
+            "cit-grokipedia-murabaha"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.",
+            "ar": "تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً."
+          }
+        }
+      ],
+      "unverified_findings": [
+        {
+          "rule_id": "rule-murabaha-conditions",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term_ref",
+            "term_id": "term-murabaha",
+            "surface_form": "murabaha"
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss8",
+            "cit-grokipedia-murabaha"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.",
+            "ar": "تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً."
+          }
+        }
+      ],
+      "limits_applied": [
+        "single_run_scope",
+        "advisory_only_unverified_citations"
+      ]
+    },
+    {
+      "item_ref": "item-g-ijara",
+      "domain_id": "d_leasing",
+      "term_ids": [
+        "term-ijara"
+      ],
+      "verdict_proposed": "doubtful",
+      "confirmed_by_operator": true,
+      "verdict_recorded": null,
+      "evidence": [
+        {
+          "rule_id": "rule-ijara-ownership",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term_ref",
+            "term_id": "term-ijara",
+            "surface_form": "ijara"
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss9"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Ijara requires the lessor to retain ownership and major risk during the lease term; the engine cannot verify the worksheet's asset_owner assertion against a verified source, so the item is flagged doubtful.",
+            "ar": "تتطلب الإجارة بقاء الملكية والضمان للمؤجر خلال مدة العقد؛ ولا يستطيع المحرك التحقق من ذلك من مصدر موثق، فتُعلَّم البنود بالشك."
+          }
+        }
+      ],
+      "unverified_findings": [
+        {
+          "rule_id": "rule-ijara-ownership",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term_ref",
+            "term_id": "term-ijara",
+            "surface_form": "ijara"
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss9"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Ijara requires the lessor to retain ownership and major risk during the lease term; the engine cannot verify the worksheet's asset_owner assertion against a verified source, so the item is flagged doubtful.",
+            "ar": "تتطلب الإجارة بقاء الملكية والضمان للمؤجر خلال مدة العقد؛ ولا يستطيع المحرك التحقق من ذلك من مصدر موثق، فتُعلَّم البنود بالشك."
+          }
+        }
+      ],
+      "limits_applied": [
+        "single_run_scope",
+        "advisory_only_unverified_citations"
+      ]
+    },
+    {
+      "item_ref": "item-g-takaful",
+      "domain_id": "d_takaful",
+      "term_ids": [
+        "term-takaful"
+      ],
+      "verdict_proposed": "doubtful",
+      "confirmed_by_operator": true,
+      "verdict_recorded": null,
+      "evidence": [
+        {
+          "rule_id": "rule-takaful-tabarru",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term_ref",
+            "term_id": "term-takaful",
+            "surface_form": "takaful"
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss26"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Takaful requires tabarru'-based contributions and Shariah-screened investment of the fund; the engine cannot verify the declared contribution_model against a verified source, so the item is flagged doubtful.",
+            "ar": "يتطلب التكافل اشتراكات تبرعية واستثمارا شرعيا للصندوق؛ ولا يستطيع المحرك التحقق من نموذج الاشتراك من مصدر موثق، فتُعلَّم البنود بالشك."
+          }
+        }
+      ],
+      "unverified_findings": [
+        {
+          "rule_id": "rule-takaful-tabarru",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term_ref",
+            "term_id": "term-takaful",
+            "surface_form": "takaful"
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss26"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Takaful requires tabarru'-based contributions and Shariah-screened investment of the fund; the engine cannot verify the declared contribution_model against a verified source, so the item is flagged doubtful.",
+            "ar": "يتطلب التكافل اشتراكات تبرعية واستثمارا شرعيا للصندوق؛ ولا يستطيع المحرك التحقق من نموذج الاشتراك من مصدر موثق، فتُعلَّم البنود بالشك."
+          }
+        }
+      ],
+      "limits_applied": [
+        "single_run_scope",
+        "advisory_only_unverified_citations"
+      ]
+    },
+    {
+      "item_ref": "item-g-sukuk",
+      "domain_id": "d_investments",
+      "term_ids": [
+        "term-sukuk"
+      ],
+      "verdict_proposed": "compliant",
+      "confirmed_by_operator": true,
+      "verdict_recorded": null,
+      "evidence": [],
+      "unverified_findings": [],
+      "limits_applied": [
+        "single_run_scope",
+        "absence_state_not_affirmative_ruling"
+      ]
+    },
+    {
+      "item_ref": "item-g-missing-cost",
+      "domain_id": "d_financing_contracts",
+      "term_ids": [
+        "term-murabaha"
+      ],
+      "verdict_proposed": "insufficient_input",
+      "confirmed_by_operator": true,
+      "verdict_recorded": null,
+      "evidence": [
+        {
+          "rule_id": "rule-missing-cost-price",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "field_empty",
+            "field": "cost_price"
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss8"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "A murabaha-adjacent financing item without a declared cost_price cannot be assessed; the missing worksheet field is recorded as exact trigger evidence.",
+            "ar": "بند تمويل بلا سعر تكلفة معلن لا يمكن تقييمه؛ يُثبَت غياب الحقل كدليل محدد."
+          }
+        },
+        {
+          "rule_id": "rule-murabaha-conditions",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term_ref",
+            "term_id": "term-murabaha",
+            "surface_form": "murabaha"
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss8",
+            "cit-grokipedia-murabaha"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.",
+            "ar": "تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً."
+          }
+        }
+      ],
+      "unverified_findings": [
+        {
+          "rule_id": "rule-missing-cost-price",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "field_empty",
+            "field": "cost_price"
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss8"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "A murabaha-adjacent financing item without a declared cost_price cannot be assessed; the missing worksheet field is recorded as exact trigger evidence.",
+            "ar": "بند تمويل بلا سعر تكلفة معلن لا يمكن تقييمه؛ يُثبَت غياب الحقل كدليل محدد."
+          }
+        },
+        {
+          "rule_id": "rule-murabaha-conditions",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term_ref",
+            "term_id": "term-murabaha",
+            "surface_form": "murabaha"
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss8",
+            "cit-grokipedia-murabaha"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.",
+            "ar": "تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً."
+          }
+        }
+      ],
+      "limits_applied": [
+        "single_run_scope",
+        "required_field_missing",
+        "advisory_only_unverified_citations"
+      ]
+    },
+    {
+      "item_ref": "item-g-crypto",
+      "domain_id": "d_investments",
+      "term_ids": [
+        "term-crypto-futures"
+      ],
+      "verdict_proposed": "out_of_coverage",
+      "confirmed_by_operator": true,
+      "verdict_recorded": null,
+      "evidence": [],
+      "unverified_findings": [],
+      "limits_applied": [
+        "single_run_scope",
+        "no_coverage_outside_lexicon"
+      ]
+    }
+  ]
+}

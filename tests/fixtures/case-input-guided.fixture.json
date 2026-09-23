@@ -1,0 +1,56 @@
+{
+  "input_id": "ci-3f7a1c2e-9b4d-4a18-8e62-1c0d5f7a9b31",
+  "mode": "guided",
+  "created_utc": "2026-09-22T22:10:00Z",
+  "rule_pack_ref": {
+    "pack_id": "scw-qatar-starter",
+    "pack_version": "0.2.0"
+  },
+  "guided": {
+    "items": [
+      {
+        "item_ref": "item-g-murabaha",
+        "domain_id": "d_financing_contracts",
+        "term_ids": ["term-murabaha"],
+        "label": "Murabaha equipment financing",
+        "fields": { "cost_price": 100000, "profit_margin": 5000, "payment_deferred": true }
+      },
+      {
+        "item_ref": "item-g-ijara",
+        "domain_id": "d_leasing",
+        "term_ids": ["term-ijara"],
+        "label": "Ijara vehicle lease",
+        "fields": { "asset_owner": "lessor", "lease_term_months": 36 }
+      },
+      {
+        "item_ref": "item-g-takaful",
+        "domain_id": "d_takaful",
+        "term_ids": ["term-takaful"],
+        "label": "Takaful fleet policy",
+        "fields": { "contribution_model": "tabarru", "operator_model": "wakala" }
+      },
+      {
+        "item_ref": "item-g-sukuk",
+        "domain_id": "d_investments",
+        "term_ids": ["term-sukuk"],
+        "label": "Sukuk allocation",
+        "fields": { "underlying_asset": "real_estate" }
+      },
+      {
+        "item_ref": "item-g-missing-cost",
+        "domain_id": "d_financing_contracts",
+        "term_ids": ["term-murabaha"],
+        "label": "Murabaha trade-goods financing (cost price not yet entered)",
+        "fields": { "profit_margin": 7500 }
+      },
+      {
+        "item_ref": "item-g-crypto",
+        "domain_id": "d_investments",
+        "term_ids": ["term-crypto-futures"],
+        "label": "Crypto futures exposure request",
+        "fields": { "underlying_asset": "synthetic_index" }
+      }
+    ]
+  },
+  "operator_notes": "Guided walkthrough of all six verdict-path variants for acceptance testing."
+}

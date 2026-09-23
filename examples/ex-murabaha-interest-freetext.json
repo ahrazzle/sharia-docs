@@ -1,0 +1,14 @@
+{
+  "input_id": "ci-22222222-2222-4222-8222-222222222222",
+  "mode": "free_text",
+  "created_utc": "2026-09-22T23:01:00Z",
+  "rule_pack_ref": {
+    "pack_id": "scw-qatar-starter",
+    "pack_version": "0.2.0"
+  },
+  "free_text": {
+    "text": "The branch offers a murabaha home financing product where the client repays the loan with interest fixed at 6 percent per annum. The brochure calls it murabaha but the repayment schedule is an interest-bearing loan.",
+    "lang_hint": "en"
+  },
+  "operator_notes": "Worked adversarial example: an interest-bearing loan mislabelled murabaha. Expect the murabaha item to carry both the term trigger and the cross-cutting interest regex evidence, downgraded to doubtful (unverified citations)."
+}

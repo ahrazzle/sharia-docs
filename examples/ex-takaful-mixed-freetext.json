@@ -1,0 +1,14 @@
+{
+  "input_id": "ci-33333333-3333-4333-8333-333333333333",
+  "mode": "free_text",
+  "created_utc": "2026-09-22T23:02:00Z",
+  "rule_pack_ref": {
+    "pack_id": "scw-qatar-starter",
+    "pack_version": "0.2.0"
+  },
+  "free_text": {
+    "text": "صندوق التكافل الجديد يجمع اشتراكات التبرع من الأعضاء. The new takaful fund pools tabarru contributions, but the surplus-sharing clause is vague and may involve gharar in the payout terms.",
+    "lang_hint": null
+  },
+  "operator_notes": "Worked bilingual example: Arabic plus English takaful text with a gharar surface form. Exercises Arabic exact-substring matching, code-point offsets, and the locked one-item-per-term rule."
+}

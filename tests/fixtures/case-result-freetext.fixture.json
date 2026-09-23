@@ -1,0 +1,363 @@
+{
+  "schema_version": "1.0.0",
+  "input_id": "ci-8d20b6f4-5c3e-4f9a-b1d7-6a92e4c08d55",
+  "rule_pack": {
+    "pack_id": "scw-qatar-starter",
+    "pack_version": "0.2.0",
+    "sha256": "1ea71e863f05f7b8c1c2fd64ce0b58fd03de5a3512e25b15d4bee64451cae042",
+    "status": "draft"
+  },
+  "engine_version": "0.1.0",
+  "items": [
+    {
+      "item_ref": "item-ft-murabaha",
+      "domain_id": "d_financing_contracts",
+      "term_ids": [
+        "term-murabaha"
+      ],
+      "verdict_proposed": "doubtful",
+      "confirmed_by_operator": false,
+      "verdict_recorded": null,
+      "evidence": [
+        {
+          "rule_id": "rule-murabaha-conditions",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term",
+            "term_id": "term-murabaha",
+            "surface_form": "murabaha",
+            "match_text": "murabaha",
+            "start_offset": 27,
+            "end_offset": 35
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss8",
+            "cit-grokipedia-murabaha"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.",
+            "ar": "تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً."
+          }
+        },
+        {
+          "rule_id": "rule-murabaha-conditions",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term",
+            "term_id": "term-murabaha",
+            "surface_form": "مرابحة",
+            "match_text": "مرابحة",
+            "start_offset": 182,
+            "end_offset": 188
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss8",
+            "cit-grokipedia-murabaha"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.",
+            "ar": "تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً."
+          }
+        },
+        {
+          "rule_id": "rule-interest-surface",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "regex",
+            "pattern": "\\binterest\\b",
+            "match_text": "Interest",
+            "start_offset": 251,
+            "end_offset": 259
+          },
+          "citation_ids": [
+            "cit-quran-2-275"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "English-language 'interest' is treated as a surface trigger for riba review; same unverified-citation downgrade as rule-riba-term applies.",
+            "ar": "لفظ interest بالإنجليزية يعد مؤشرا على الربا للمراجعة؛ ويسري عليه نفس تخفيض الشك لعدم توثيق الإسناد."
+          }
+        }
+      ],
+      "unverified_findings": [
+        {
+          "rule_id": "rule-murabaha-conditions",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term",
+            "term_id": "term-murabaha",
+            "surface_form": "murabaha",
+            "match_text": "murabaha",
+            "start_offset": 27,
+            "end_offset": 35
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss8",
+            "cit-grokipedia-murabaha"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.",
+            "ar": "تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً."
+          }
+        },
+        {
+          "rule_id": "rule-murabaha-conditions",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term",
+            "term_id": "term-murabaha",
+            "surface_form": "مرابحة",
+            "match_text": "مرابحة",
+            "start_offset": 182,
+            "end_offset": 188
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss8",
+            "cit-grokipedia-murabaha"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.",
+            "ar": "تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً."
+          }
+        },
+        {
+          "rule_id": "rule-interest-surface",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "regex",
+            "pattern": "\\binterest\\b",
+            "match_text": "Interest",
+            "start_offset": 251,
+            "end_offset": 259
+          },
+          "citation_ids": [
+            "cit-quran-2-275"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "English-language 'interest' is treated as a surface trigger for riba review; same unverified-citation downgrade as rule-riba-term applies.",
+            "ar": "لفظ interest بالإنجليزية يعد مؤشرا على الربا للمراجعة؛ ويسري عليه نفس تخفيض الشك لعدم توثيق الإسناد."
+          }
+        }
+      ],
+      "limits_applied": [
+        "single_run_scope",
+        "no_stemming_ar",
+        "unmatched_content_not_assessed",
+        "advisory_only_unverified_citations"
+      ]
+    },
+    {
+      "item_ref": "item-ft-ijara",
+      "domain_id": "d_leasing",
+      "term_ids": [
+        "term-ijara"
+      ],
+      "verdict_proposed": "doubtful",
+      "confirmed_by_operator": false,
+      "verdict_recorded": null,
+      "evidence": [
+        {
+          "rule_id": "rule-ijara-ownership",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term",
+            "term_id": "term-ijara",
+            "surface_form": "ijara",
+            "match_text": "ijara",
+            "start_offset": 124,
+            "end_offset": 129
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss9"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Ijara requires the lessor to retain ownership and major risk during the lease term; the engine cannot verify the worksheet's asset_owner assertion against a verified source, so the item is flagged doubtful.",
+            "ar": "تتطلب الإجارة بقاء الملكية والضمان للمؤجر خلال مدة العقد؛ ولا يستطيع المحرك التحقق من ذلك من مصدر موثق، فتُعلَّم البنود بالشك."
+          }
+        },
+        {
+          "rule_id": "rule-interest-surface",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "regex",
+            "pattern": "\\binterest\\b",
+            "match_text": "Interest",
+            "start_offset": 251,
+            "end_offset": 259
+          },
+          "citation_ids": [
+            "cit-quran-2-275"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "English-language 'interest' is treated as a surface trigger for riba review; same unverified-citation downgrade as rule-riba-term applies.",
+            "ar": "لفظ interest بالإنجليزية يعد مؤشرا على الربا للمراجعة؛ ويسري عليه نفس تخفيض الشك لعدم توثيق الإسناد."
+          }
+        }
+      ],
+      "unverified_findings": [
+        {
+          "rule_id": "rule-ijara-ownership",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term",
+            "term_id": "term-ijara",
+            "surface_form": "ijara",
+            "match_text": "ijara",
+            "start_offset": 124,
+            "end_offset": 129
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss9"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Ijara requires the lessor to retain ownership and major risk during the lease term; the engine cannot verify the worksheet's asset_owner assertion against a verified source, so the item is flagged doubtful.",
+            "ar": "تتطلب الإجارة بقاء الملكية والضمان للمؤجر خلال مدة العقد؛ ولا يستطيع المحرك التحقق من ذلك من مصدر موثق، فتُعلَّم البنود بالشك."
+          }
+        },
+        {
+          "rule_id": "rule-interest-surface",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "regex",
+            "pattern": "\\binterest\\b",
+            "match_text": "Interest",
+            "start_offset": 251,
+            "end_offset": 259
+          },
+          "citation_ids": [
+            "cit-quran-2-275"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "English-language 'interest' is treated as a surface trigger for riba review; same unverified-citation downgrade as rule-riba-term applies.",
+            "ar": "لفظ interest بالإنجليزية يعد مؤشرا على الربا للمراجعة؛ ويسري عليه نفس تخفيض الشك لعدم توثيق الإسناد."
+          }
+        }
+      ],
+      "limits_applied": [
+        "single_run_scope",
+        "no_stemming_ar",
+        "advisory_only_unverified_citations"
+      ]
+    },
+    {
+      "item_ref": "item-ft-takaful",
+      "domain_id": "d_takaful",
+      "term_ids": [
+        "term-takaful"
+      ],
+      "verdict_proposed": "doubtful",
+      "confirmed_by_operator": false,
+      "verdict_recorded": null,
+      "evidence": [
+        {
+          "rule_id": "rule-takaful-tabarru",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term",
+            "term_id": "term-takaful",
+            "surface_form": "takaful",
+            "match_text": "takaful",
+            "start_offset": 220,
+            "end_offset": 227
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss26"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Takaful requires tabarru'-based contributions and Shariah-screened investment of the fund; the engine cannot verify the declared contribution_model against a verified source, so the item is flagged doubtful.",
+            "ar": "يتطلب التكافل اشتراكات تبرعية واستثمارا شرعيا للصندوق؛ ولا يستطيع المحرك التحقق من نموذج الاشتراك من مصدر موثق، فتُعلَّم البنود بالشك."
+          }
+        },
+        {
+          "rule_id": "rule-interest-surface",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "regex",
+            "pattern": "\\binterest\\b",
+            "match_text": "Interest",
+            "start_offset": 251,
+            "end_offset": 259
+          },
+          "citation_ids": [
+            "cit-quran-2-275"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "English-language 'interest' is treated as a surface trigger for riba review; same unverified-citation downgrade as rule-riba-term applies.",
+            "ar": "لفظ interest بالإنجليزية يعد مؤشرا على الربا للمراجعة؛ ويسري عليه نفس تخفيض الشك لعدم توثيق الإسناد."
+          }
+        }
+      ],
+      "unverified_findings": [
+        {
+          "rule_id": "rule-takaful-tabarru",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "term",
+            "term_id": "term-takaful",
+            "surface_form": "takaful",
+            "match_text": "takaful",
+            "start_offset": 220,
+            "end_offset": 227
+          },
+          "citation_ids": [
+            "cit-aaoifi-ss26"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "Takaful requires tabarru'-based contributions and Shariah-screened investment of the fund; the engine cannot verify the declared contribution_model against a verified source, so the item is flagged doubtful.",
+            "ar": "يتطلب التكافل اشتراكات تبرعية واستثمارا شرعيا للصندوق؛ ولا يستطيع المحرك التحقق من نموذج الاشتراك من مصدر موثق، فتُعلَّم البنود بالشك."
+          }
+        },
+        {
+          "rule_id": "rule-interest-surface",
+          "outcome": "doubtful",
+          "severity": "advisory",
+          "trigger": {
+            "type": "regex",
+            "pattern": "\\binterest\\b",
+            "match_text": "Interest",
+            "start_offset": 251,
+            "end_offset": 259
+          },
+          "citation_ids": [
+            "cit-quran-2-275"
+          ],
+          "citation_status": "unverified",
+          "rationale": {
+            "en": "English-language 'interest' is treated as a surface trigger for riba review; same unverified-citation downgrade as rule-riba-term applies.",
+            "ar": "لفظ interest بالإنجليزية يعد مؤشرا على الربا للمراجعة؛ ويسري عليه نفس تخفيض الشك لعدم توثيق الإسناد."
+          }
+        }
+      ],
+      "limits_applied": [
+        "single_run_scope",
+        "no_stemming_ar",
+        "advisory_only_unverified_citations"
+      ]
+    }
+  ]
+}

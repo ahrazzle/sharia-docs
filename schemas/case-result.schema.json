@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ahrazzle.github.io/sharia-docs/schemas/case-result-v1.schema.json",
+  "title": "Sharia-Compliance Workbook — Case Result v1 (LOCKED schema)",
+  "description": "Pure deterministic output of evaluate(case_input, rule_pack). Five closed verdict tokens. Every fired rule yields exact trigger evidence: the exact matched substring plus its Unicode code-point offsets in the ORIGINAL input text. No timestamps here (run metadata lives in the attestation) so results are byte-reproducible.",
+  "type": "object",
+  "required": ["schema_version", "input_id", "rule_pack", "engine_version", "items"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "input_id": { "type": "string", "pattern": "^ci-[0-9a-f-]{36}$" },
+    "rule_pack": {
+      "type": "object",
+      "required": ["pack_id", "pack_version", "sha256", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "pack_id": { "type": "string" },
+        "pack_version": { "type": "string" },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$", "description": "sha256 of canonical pack JSON, recomputed at load and asserted." },
+        "status": { "enum": ["draft", "stable", "retired"] }
+      }
+    },
+    "engine_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "items": { "type": "array", "items": { "$ref": "#/$defs/item_result" }, "minItems": 1 }
+  },
+  "$defs": {
+    "verdict_token": {
+      "enum": ["compliant", "non_compliant", "doubtful", "out_of_coverage", "insufficient_input"],
+      "description": "LOCKED closed set of exactly five tokens. Semantics: compliant = all applicable rules evaluated, none fired, inputs sufficient; non_compliant = at least one blocking rule fired with verified citations; doubtful = advisory/contested rule fired, or any firing rule cites an unverified source (downgrade); out_of_coverage = no pack rule applies to the item's domain/structure; insufficient_input = required guided fields empty or free text yields no confirmed item."
+    },
+    "item_result": {
+      "type": "object",
+      "required": ["item_ref", "domain_id", "verdict_proposed", "evidence", "confirmed_by_operator", "verdict_recorded"],
+      "additionalProperties": false,
+      "properties": {
+        "item_ref": { "type": "string", "pattern": "^item-[a-z0-9-]{1,63}$" },
+        "domain_id": { "type": "string", "pattern": "^d_[a-z][a-z0-9_]{2,31}$" },
+        "term_ids": { "type": "array", "items": { "type": "string" } },
+        "verdict_proposed": { "$ref": "#/$defs/verdict_token", "description": "Engine output. This is a WORKSHEET PROPOSAL, never an approval." },
+        "confirmed_by_operator": { "type": "boolean", "description": "True only after the human operator confirms/corrects the item (free-text mode requires confirmation; guided items are confirmed at entry)." },
+        "verdict_recorded": {
+          "oneOf": [
+            { "const": null },
+            { "$ref": "#/$defs/verdict_token" }
+          ],
+          "description": "Null until the operator records the worksheet verdict. The engine NEVER sets this. It is the human's field."
+        },
+        "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence" } },
+        "unverified_findings": {
+          "type": "array",
+          "description": "Fired rules whose citations are all-or-partially unverified are ALSO mirrored here with their citation status, so the unverified pathway is visible even when the main evidence carries a downgrade. Never contributes to 'non_compliant'.",
+          "items": { "$ref": "#/$defs/evidence" }
+        },
+        "limits_applied": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Machine-readable limit codes applied to this item, e.g. 'no_stemming_ar', 'blocking_requires_verified_citation', 'single_run_scope'."
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["rule_id", "outcome", "severity", "trigger", "citation_ids", "citation_status"],
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": { "type": "string", "pattern": "^rule-[a-z0-9-]{1,63}$" },
+        "outcome": { "enum": ["non_compliant", "doubtful"] },
+        "severity": { "enum": ["blocking", "advisory"] },
+        "trigger": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": ["type", "term_id", "surface_form"],
+              "additionalProperties": false,
+              "properties": {
+                "type": { "const": "term_ref", "description": "Guided-mode term evidence: the item's declared term_ids matched a rule; no input text or offsets exist." },
+                "term_id": { "type": "string" },
+                "surface_form": { "type": "string", "description": "The lexicon surface form referenced." }
+              }
+            },
+            {
+              "type": "object",
+              "required": ["type", "term_id", "surface_form", "match_text", "start_offset", "end_offset"],
+              "additionalProperties": false,
+              "properties": {
+                "type": { "const": "term" },
+                "term_id": { "type": "string" },
+                "surface_form": { "type": "string", "description": "The exact lexicon surface form that matched (en or ar)." },
+                "match_text": { "type": "string", "minLength": 1, "description": "Exact matched substring from the input, logical order." },
+                "start_offset": { "type": "integer", "minimum": 0, "description": "Unicode code-point offset into the original input text." },
+                "end_offset": { "type": "integer", "minimum": 1, "description": "Exclusive end; end > start; end-start == len(match_text) in code points." }
+              }
+            },
+            {
+              "type": "object",
+              "required": ["type", "pattern", "match_text", "start_offset", "end_offset"],
+              "additionalProperties": false,
+              "properties": {
+                "type": { "const": "regex" },
+                "pattern": { "type": "string" },
+                "match_text": { "type": "string", "minLength": 1 },
+                "start_offset": { "type": "integer", "minimum": 0 },
+                "end_offset": { "type": "integer", "minimum": 1 }
+              }
+            },
+            {
+              "type": "object",
+              "required": ["type", "field"],
+              "additionalProperties": false,
+              "properties": {
+                "type": { "const": "field_empty" },
+                "field": { "type": "string" }
+              }
+            },
+            {
+              "type": "object",
+              "required": ["type", "field", "value"],
+              "additionalProperties": false,
+              "properties": {
+                "type": { "const": "field_value" },
+                "field": { "type": "string" },
+                "value": { "type": ["string", "boolean", "number"] }
+              }
+            }
+          ]
+        },
+        "citation_ids": { "type": "array", "items": { "type": "string" } },
+        "citation_status": { "enum": ["verified", "unverified"] },
+        "rationale": {
+          "type": "object",
+          "required": ["en"],
+          "additionalProperties": false,
+          "properties": { "en": { "type": "string" }, "ar": { "type": ["string", "null"] } }
+        }
+      }
+    }
+  }
+}

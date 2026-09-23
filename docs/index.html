@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="root">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sharia-Compliance Workbook</title>
+<style>
+:root{--fg:#111;--bg:#fff;--mut:#444;--line:#444;--chip:#f0f0f0;--gap:#f6f6f6;--acc:#0b3d91;}
+@media (prefers-color-scheme:dark){:root{--fg:#f2f2f2;--bg:#121212;--mut:#c9c9c9;--line:#888;--chip:#222;--gap:#1c1c1c;--acc:#9dbcff;}}
+body{font-family:Georgia,'Times New Roman',serif;color:var(--fg);background:var(--bg);max-width:220mm;margin:0 auto;padding:8mm;}
+[dir="rtl"] body,body.rtl{direction:rtl;}
+.ar{direction:rtl;text-align:right;}
+.num,.mono{font-family:ui-monospace,Menlo,Consolas,monospace;}
+header{display:flex;flex-wrap:wrap;gap:.4em;align-items:center;border-bottom:2px solid var(--line);padding-bottom:.6em;}
+.chip{display:inline-block;border:1px solid var(--line);border-radius:4px;padding:.15em .6em;margin:.1em;font-size:.85em;background:var(--chip);}
+.badge{display:inline-block;border:1px solid var(--line);border-radius:4px;padding:.15em .6em;margin:.1em;font-size:.9em;}
+nav.rail{display:flex;flex-wrap:wrap;gap:.3em;margin:.8em 0;}
+nav.rail button{font:inherit;padding:.4em .9em;border:1px solid var(--line);background:var(--chip);color:var(--fg);border-radius:4px;cursor:pointer;}
+nav.rail button[aria-current="true"]{outline:2px solid var(--acc);}
+section.pane{display:none;}section.pane.on{display:block;}
+table{width:100%;border-collapse:collapse;margin:1em 0;}
+th,td{border:1px solid var(--line);padding:.45em;vertical-align:top;text-align:start;}
+thead{display:table-header-group;}
+tr,section{break-inside:avoid;}
+textarea{width:100%;min-height:9em;font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);}
+input,select{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);padding:.2em .4em;}
+button.act{font:inherit;padding:.45em 1em;border:1px solid var(--line);background:var(--chip);color:var(--fg);border-radius:4px;cursor:pointer;margin:.2em;}
+button.act:disabled{opacity:.45;cursor:default;}
+.signoff{border:2px solid var(--line);padding:1em;margin-top:2em;}
+.gap{border:1px dashed var(--line);padding:.3em;background:var(--gap);}
+.alert{border:2px solid var(--line);padding:.6em;margin:.6em 0;}
+footer{border-top:2px solid var(--line);margin-top:2em;padding-top:.6em;font-size:.9em;}
+.req{font-size:.8em;border:1px solid var(--line);border-radius:3px;padding:0 .4em;margin-inline-start:.4em;}
+pre{white-space:pre-wrap;word-break:break-word;border:1px solid var(--line);padding:.6em;font-size:.85em;}
+@page{size:A4;margin:15mm;}
+@media print{nav.rail,.noprint{display:none;}section.pane{display:block;}body{max-width:none;}}
+</style>
+</head>
+<body>
+<header>
+<h1 id="t-title">Sharia-Compliance Workbook</h1>
+<div id="chips" aria-label="pack identity"></div>
+<div class="noprint" id="langbox">
+<button class="act" data-lang="en">English</button>
+<button class="act" data-lang="ar">العربية</button>
+<button class="act" data-lang="bi">Bilingual</button>
+</div>
+</header>
+<p id="d6"></p>
+<!-- Standing in-app print label (UX contract, persistent bilingual):
+     hidden before any run; shown the moment a run completes and never
+     removed afterwards in that session; never under .noprint. -->
+<p id="statuslabel" class="alert" data-statuslabel hidden><strong>Input status: unconfirmed input</strong> — this document has not been reviewed and carries no reviewer sign-off.<br><span class="ar" dir="rtl" lang="ar">حالة المدخلات: مدخلات غير مؤكدة — لم تُراجع هذه الوثيقة ولا تحمل اعتماد مراجع.</span></p>
+<nav class="rail noprint" id="rail" aria-label="panes"></nav>
+
+<section class="pane" id="pane-intake" aria-label="intake">
+<h2 id="t-intake">Case input</h2>
+<div id="modebox">
+<button class="act" id="m-paste">Paste free text</button>
+<button class="act" id="m-guided">Guided form</button>
+</div>
+<div id="pastebox">
+<label id="t-freetext" for="freetext">Transaction, contract or term sheet</label>
+<textarea id="freetext" dir="auto" aria-describedby="counter script"></textarea>
+<p><span id="counter"></span> · <span id="script"></span></p>
+<p id="t-local">Text stays on this machine — no network calls.</p>
+</div>
+<div id="guidedbox" hidden>
+<div id="gform"></div>
+<button class="act" id="gadd">Add item</button>
+</div>
+<div id="packpanel"></div>
+<button class="act" id="run">Run worksheet</button>
+<p id="runwarn" role="alert"></p>
+</section>
+
+<section class="pane" id="pane-structure" aria-label="structure reading">
+<h2 id="t-p1">Structure reading</h2>
+<div id="p1banner"></div>
+<div id="p1list"></div>
+<p id="p1meter"></p>
+</section>
+
+<section class="pane" id="pane-worksheet" aria-label="mapping worksheet">
+<h2 id="t-p2">Mapping worksheet</h2>
+<div id="p2head"></div>
+<div id="facetbox" class="noprint"></div>
+<table id="p2table"><thead><tr id="p2tr"></tr></thead><tbody id="p2tb"></tbody></table>
+</section>
+
+<section class="pane" id="pane-attestation" aria-label="attestation pack">
+<h2 id="t-p3">Attestation pack</h2>
+<div id="p3body"></div>
+<div class="noprint">
+<button class="act" id="exp-json">Export JSON</button>
+<button class="act" id="exp-csv">Export CSV</button>
+<button class="act" id="exp-html">Export print-ready HTML</button>
+<button class="act" id="doprint">Print</button>
+</div>
+<h3 id="t-limits">Coverage limits</h3>
+<ol id="limits"></ol>
+<div class="signoff" id="signoff"></div>
+</section>
+
+<section class="pane" id="pane-unverified" aria-label="unverified list">
+<h2 id="t-p4">Unverified list</h2>
+<p id="p4banner"></p>
+<table><thead><tr id="p4tr"></tr></thead><tbody id="p4tb"></tbody></table>
+<h3 id="t-findings">Findings resting on these sources</h3>
+<div id="p4find"></div>
+</section>
+
+<footer><p id="foot-disclaimer"></p></footer>
+
+<script src="scw-engine.js"></script>
+<script id="pack" type="application/json">{
+  "pack_id": "scw-qatar-starter",
+  "schema_version": "1.1.0",
+  "pack_version": "0.2.0",
+  "created_utc": "2026-09-22T22:04:20Z",
+  "status": "draft",
+  "engine_min_version": "1.0.0",
+  "domains": [
+    {
+      "domain_id": "d_financing_contracts",
+      "label": { "en": "Financing contracts (murabaha and related sale-based structures)", "ar": "عقود التمويل (المرابحة وما في حكمها من العقود البيعية)" },
+      "required_fields": ["cost_price", "profit_margin"]
+    },
+    {
+      "domain_id": "d_leasing",
+      "label": { "en": "Leasing (ijara structures)", "ar": "التأجير (عقود الإجارة)" },
+      "required_fields": ["asset_owner"]
+    },
+    {
+      "domain_id": "d_takaful",
+      "label": { "en": "Cooperative insurance (takaful structures)", "ar": "التأمين التعاوني (صيغ التكافل)" },
+      "required_fields": ["contribution_model"]
+    },
+    {
+      "domain_id": "d_investments",
+      "label": { "en": "Investments (sukuk, musharakah, mudarabah and related instruments)", "ar": "الاستثمارات (الصكوك والمشاركة والمضاربة وما يتصل بها)" },
+      "required_fields": ["underlying_asset"]
+    }
+  ],
+  "lexicon": [
+    {
+      "term_id": "term-murabaha",
+      "en": "murabaha",
+      "ar": "مرابحة",
+      "transliteration": "murābaḥah",
+      "definition": { "en": "Sale at a disclosed cost-plus profit margin, payable on a deferred basis.", "ar": "بيع بأصل معلوم وربح معلوم بالثمن المؤجل." },
+      "domain_ids": ["d_financing_contracts"],
+      "citation_ids": ["cit-grokipedia-murabaha", "cit-halalwallet-glossary"]
+    },
+    {
+      "term_id": "term-ijara",
+      "en": "ijara",
+      "ar": "إجارة",
+      "transliteration": "ījārah",
+      "definition": { "en": "Lease contract: the lessor owns the asset and leases it for a predetermined rent.", "ar": "عقد تأجير: يملك المؤجر الأصل ويؤجره بأجر معلوم." },
+      "domain_ids": ["d_leasing"],
+      "citation_ids": ["cit-halalwallet-glossary"]
+    },
+    {
+      "term_id": "term-takaful",
+      "en": "takaful",
+      "ar": "تكافل",
+      "transliteration": "takāful",
+      "definition": { "en": "Cooperative risk-sharing via tabarru' contributions to a pooled fund.", "ar": "تعاون في تحمل المخاطر عبر اشتراكات تبرعية في صندوق مشترك." },
+      "domain_ids": ["d_takaful"],
+      "citation_ids": ["cit-aaoifi-ss26", "cit-halalwallet-glossary"]
+    },
+    {
+      "term_id": "term-tawarruq",
+      "en": "tawarruq",
+      "ar": "تورق",
+      "transliteration": "tawarruq",
+      "definition": { "en": "Organized commodity murabaha for liquidity generation; contested among schools.", "ar": "شراء بثمن مؤجل للبيع نقدا لتحقيق السيولة؛ فيه خلاف بين المذاهب." },
+      "domain_ids": ["d_financing_contracts", "d_investments"],
+      "citation_ids": ["cit-halalwallet-glossary"]
+    },
+    {
+      "term_id": "term-musharakah",
+      "en": "musharakah",
+      "ar": "شراكة",
+      "transliteration": "mushārakah",
+      "definition": { "en": "Joint venture or co-ownership with shared profit and loss.", "ar": "اشتراك في رأس المال مع الربح والخسارة." },
+      "domain_ids": ["d_investments"],
+      "citation_ids": ["cit-halalwallet-glossary"]
+    },
+    {
+      "term_id": "term-mudarabah",
+      "en": "mudarabah",
+      "ar": "مضاربة",
+      "transliteration": "muḍārabah",
+      "definition": { "en": "Profit-sharing investment: capital provider and manager; loss borne by capital provider.", "ar": "عقد بين رب المال والعامل: الربح بشروط والخسارة على رب المال." },
+      "domain_ids": ["d_investments"],
+      "citation_ids": ["cit-halalwallet-glossary"]
+    },
+    {
+      "term_id": "term-sukuk",
+      "en": "sukuk",
+      "ar": "صكوك",
+      "transliteration": "ṣukūk",
+      "definition": { "en": "Certificates of ownership in an underlying asset or venture, income-bearing rather than debt-bearing.", "ar": "شهادات ملكية في أصل أو مشروع، تدر دخلا لا دينا." },
+      "domain_ids": ["d_investments"],
+      "citation_ids": ["cit-aaoifi-ss17"]
+    },
+    {
+      "term_id": "term-riba",
+      "en": "riba",
+      "ar": "ربا",
+      "transliteration": "ribā",
+      "definition": { "en": "Any predetermined guaranteed return on a loan; prohibited.", "ar": "كل زيادة مشروطة في قرض؛ محرمة." },
+      "domain_ids": ["d_financing_contracts", "d_leasing", "d_takaful", "d_investments"],
+      "citation_ids": ["cit-quran-2-275"]
+    },
+    {
+      "term_id": "term-gharar",
+      "en": "gharar",
+      "ar": "غرر",
+      "transliteration": "gharar",
+      "definition": { "en": "Excessive uncertainty or ambiguity in contract terms.", "ar": "جهالة أو غموض زائد في أركان العقد." },
+      "domain_ids": ["d_financing_contracts", "d_takaful", "d_investments"],
+      "citation_ids": ["cit-fiqh-consensus-gharar-maysir"]
+    },
+    {
+      "term_id": "term-maysir",
+      "en": "maysir",
+      "ar": "ميسر",
+      "transliteration": "maysir",
+      "definition": { "en": "Gambling or chance-based gain; prohibited.", "ar": "المراهنة واكتساب الحظ؛ محرم." },
+      "domain_ids": ["d_financing_contracts", "d_takaful", "d_investments"],
+      "citation_ids": ["cit-fiqh-consensus-gharar-maysir"]
+    }
+  ],
+  "citations": [
+    {
+      "citation_id": "cit-law-20-2019",
+      "status": "unverified",
+      "title": "Qatar Law No. 20 of 2019 on Combating Money Laundering and Terrorism Financing (MOJ official Arabic PDF)",
+      "url": "https://moj.gov.qa/sites/default/files/2026-01/Law%20No.%20%2820%29%20of%202019%20on%20the%20Promulgation%20of%20Anti-Money%20Laundering%20and%20Terrorism%20Financing%20Law.pdf",
+      "fetch_date": "2026-09-22",
+      "note": "Provenance and record-keeping context only; carries no sharia-substantive rule in this pack. Promulgated 11 September 2019 (12/01/1441 A.H.); effective the day after Official Gazette publication per Article 5 (research correction brief, items 1-2). Demoted from verified 2026-09-23: the recorded whole-document hash did not match the live primary; re-promotion requires fetched primary bytes, document hash, verbatim NFC quote and quote hash."
+    },
+    {
+      "citation_id": "cit-law-18-2025",
+      "status": "unverified",
+      "title": "Qatar Law No. 18 of 2025 amending provisions of the AML/CFT Law (QFCRA English translation PDF)",
+      "url": "https://www.qfcra.com/en-us/AML%20Law%20and%20Legislation/Translated-Law%20No%2018%20of%202025%20amended%20provision%20of%20AML-CFT%20Law%20No%202_EN.pdf",
+      "fetch_date": "2026-09-22",
+      "note": "Provenance context only. Genealogy per the Law 18/2025 recitals: Law No. 20 of 2019 as amended by Decree-Law No. 19/2021 (research correction brief, item 9). Effective date unverified against the Official Gazette."
+    },
+    {
+      "citation_id": "cit-qcb-portal",
+      "status": "unverified",
+      "title": "Qatar Central Bank — main portal",
+      "url": "https://qcb.gov.qa/",
+      "fetch_date": "2026-09-22",
+      "note": "Regulator context for the domestic Islamic banking track. Portal landing page never fetched and hashed; no verified quote on file."
+    },
+    {
+      "citation_id": "cit-qcb-fintech",
+      "status": "unverified",
+      "title": "Qatar Central Bank — Financial Technology page (sandbox, AI guideline, BNPL regulation)",
+      "url": "https://qcb.gov.qa/en/pages/financialtechnology.aspx",
+      "fetch_date": "2026-09-22",
+      "note": "Regulator context; carries no sharia-substantive rule in this pack. Page never fetched and hashed; no verified quote on file."
+    },
+    {
+      "citation_id": "cit-aaoifi-ss8",
+      "status": "unverified",
+      "title": "AAOIFI Sharia Standard No. 8 — Murabaha (referenced via secondary sources; AAOIFI primary text not fetched)",
+      "url": "https://grokipedia.com/page/Murabaha",
+      "fetch_date": "2026-09-22",
+      "note": "Standard number and conditions asserted by secondary sources only. Verifying against the AAOIFI primary text is a prerequisite before any rule citing it may become blocking."
+    },
+    {
+      "citation_id": "cit-aaoifi-ss9",
+      "status": "unverified",
+      "title": "AAOIFI Sharia Standard No. 9 — Ijara (referenced via secondary sources; AAOIFI primary text not fetched)",
+      "url": "https://almaazmilawyers.com/practices/islamic-finance",
+      "fetch_date": "2026-09-22",
+      "note": "Same verification prerequisite as cit-aaoifi-ss8."
+    },
+    {
+      "citation_id": "cit-aaoifi-ss17",
+      "status": "unverified",
+      "title": "AAOIFI Sharia Standard No. 17 — Investment Sukuk (referenced via secondary sources; AAOIFI primary text not fetched)",
+      "url": "https://www.halalwallet.us/glossary",
+      "fetch_date": "2026-09-22",
+      "note": "Same verification prerequisite as cit-aaoifi-ss8."
+    },
+    {
+      "citation_id": "cit-aaoifi-ss26",
+      "status": "unverified",
+      "title": "AAOIFI Sharia Standard No. 26 — Takaful (referenced via secondary sources; AAOIFI primary text not fetched)",
+      "url": "https://ijecm.co.uk/wp-content/uploads/2015/04/3434.pdf",
+      "fetch_date": "2026-09-22",
+      "note": "Same verification prerequisite as cit-aaoifi-ss8."
+    },
+    {
+      "citation_id": "cit-quran-2-275",
+      "status": "unverified",
+      "title": "Quran 2:275 ('Allah has permitted trade and forbidden riba') — primary mushaf text not fetched by the research lane",
+      "url": "https://quran.com/2/275",
+      "fetch_date": "2026-09-22",
+      "note": "The verse reference is universally attested but the research lane did not fetch and hash a primary text. Fetching and hashing a primary source is the prerequisite before rule-riba-term / rule-interest-surface may become blocking."
+    },
+    {
+      "citation_id": "cit-fiqh-consensus-gharar-maysir",
+      "status": "unverified",
+      "title": "Gharar and maysir prohibitions — universal fiqh consensus, cited via secondary glossaries only",
+      "url": "https://www.halalwallet.us/glossary",
+      "fetch_date": "2026-09-22",
+      "note": "No single primary URL established by the research lane; conservative: stays unverified until a primary fiqh reference is fetched."
+    },
+    {
+      "citation_id": "cit-grokipedia-murabaha",
+      "status": "unverified",
+      "title": "Grokipedia: Murabaha (tertiary encyclopedia entry)",
+      "url": "https://grokipedia.com/page/Murabaha",
+      "fetch_date": "2026-09-22"
+    },
+    {
+      "citation_id": "cit-halalwallet-glossary",
+      "status": "unverified",
+      "title": "HalalWallet glossary (secondary commercial glossary)",
+      "url": "https://www.halalwallet.us/glossary",
+      "fetch_date": "2026-09-22"
+    }
+  ],
+  "unverified_sources": [
+    { "citation_id": "cit-aaoifi-ss8", "reason": "AAOIFI primary text not fetched by the research lane; standard number asserted via secondary sources only." },
+    { "citation_id": "cit-aaoifi-ss9", "reason": "AAOIFI primary text not fetched by the research lane." },
+    { "citation_id": "cit-aaoifi-ss17", "reason": "AAOIFI primary text not fetched by the research lane." },
+    { "citation_id": "cit-aaoifi-ss26", "reason": "AAOIFI primary text not fetched by the research lane." },
+    { "citation_id": "cit-quran-2-275", "reason": "Verse universally attested but no primary mushaf/database text was fetched and hashed by the research lane." },
+    { "citation_id": "cit-fiqh-consensus-gharar-maysir", "reason": "Consensus claim carried by secondary glossaries; no primary fiqh reference fetched." },
+    { "citation_id": "cit-grokipedia-murabaha", "reason": "Tertiary encyclopedia entry; not an authority." },
+    { "citation_id": "cit-halalwallet-glossary", "reason": "Secondary commercial glossary; not an authority." },
+    { "citation_id": "cit-law-20-2019", "reason": "Recorded whole-document sha256 9d2bded9... does not match the live MOJ primary; no verified quote + quote_sha256 on file. Re-promotion requires fetched primary bytes, document hash, verbatim NFC quote and quote hash (research correction brief)." },
+    { "citation_id": "cit-law-18-2025", "reason": "No fetched whole-document sha256 and no verified quote + quote_sha256 on file; QFCRA translation URL retained as reference. Re-promotion requires fetched primary bytes and the quote contract." },
+    { "citation_id": "cit-qcb-portal", "reason": "Portal landing page never fetched and hashed; no verified quote on file. Regulator context only." },
+    { "citation_id": "cit-qcb-fintech", "reason": "Page never fetched and hashed; no verified quote on file. Regulator context only." }
+  ],
+  "rules": [
+    {
+      "rule_id": "rule-murabaha-conditions",
+      "domain_ids": ["d_financing_contracts"],
+      "outcome": "doubtful",
+      "severity": "advisory",
+      "trigger": { "type": "term", "term_ids": ["term-murabaha"] },
+      "rationale": { "en": "Murabaha requires disclosed cost, agreed profit margin and financier possession before resale; this pack cannot verify those conditions, so any murabaha item is flagged doubtful pending worksheet completion and human review.", "ar": "تتطلب المرابحة الإفصاح عن الربح وحيازة البائع للسلعة قبل البيع؛ ولا يمكن لهذه الحزمة التحقق من تلك الشروط، فتُعلَّم البنود بالشك مراجعةً." },
+      "citation_ids": ["cit-aaoifi-ss8", "cit-grokipedia-murabaha"],
+      "status": "active"
+    },
+    {
+      "rule_id": "rule-ijara-ownership",
+      "domain_ids": ["d_leasing"],
+      "outcome": "doubtful",
+      "severity": "advisory",
+      "trigger": { "type": "term", "term_ids": ["term-ijara"] },
+      "rationale": { "en": "Ijara requires the lessor to retain ownership and major risk during the lease term; the engine cannot verify the worksheet's asset_owner assertion against a verified source, so the item is flagged doubtful.", "ar": "تتطلب الإجارة بقاء الملكية والضمان للمؤجر خلال مدة العقد؛ ولا يستطيع المحرك التحقق من ذلك من مصدر موثق، فتُعلَّم البنود بالشك." },
+      "citation_ids": ["cit-aaoifi-ss9"],
+      "status": "active"
+    },
+    {
+      "rule_id": "rule-takaful-tabarru",
+      "domain_ids": ["d_takaful"],
+      "outcome": "doubtful",
+      "severity": "advisory",
+      "trigger": { "type": "term", "term_ids": ["term-takaful"] },
+      "rationale": { "en": "Takaful requires tabarru'-based contributions and Shariah-screened investment of the fund; the engine cannot verify the declared contribution_model against a verified source, so the item is flagged doubtful.", "ar": "يتطلب التكافل اشتراكات تبرعية واستثمارا شرعيا للصندوق؛ ولا يستطيع المحرك التحقق من نموذج الاشتراك من مصدر موثق، فتُعلَّم البنود بالشك." },
+      "citation_ids": ["cit-aaoifi-ss26"],
+      "status": "active"
+    },
+    {
+      "rule_id": "rule-tawarruq-contested",
+      "domain_ids": ["d_financing_contracts", "d_investments"],
+      "outcome": "doubtful",
+      "severity": "advisory",
+      "trigger": { "type": "term", "term_ids": ["term-tawarruq"] },
+      "rationale": { "en": "Tawarruq is contested among the schools; any appearance is flagged doubtful for scholar review, never resolved by this pack.", "ar": "التورق من المسائل الخلافية بين المذاهب؛ كل ورود له يُعلَّم بالشك لمراجعة أهل العلم." },
+      "citation_ids": ["cit-halalwallet-glossary"],
+      "status": "active"
+    },
+    {
+      "rule_id": "rule-riba-term",
+      "domain_ids": ["d_financing_contracts", "d_leasing", "d_takaful", "d_investments"],
+      "outcome": "doubtful",
+      "severity": "advisory",
+      "trigger": { "type": "term", "term_ids": ["term-riba"] },
+      "rationale": { "en": "The riba prohibition is central and near-universal, but the pack's citation for it is unverified, so the rule is advisory and downgraded to doubtful until a primary text is fetched and hashed; it can never emit non_compliant in this state.", "ar": "تحريم الربا من الأصول المقررة، لكن إسناد الحزمة إليه غير موثق بعد، فتُعد القاعدة تنبيها وتُخفَّض إلى الشك حتى توثيق النص الأصلي." },
+      "citation_ids": ["cit-quran-2-275"],
+      "status": "active"
+    },
+    {
+      "rule_id": "rule-interest-surface",
+      "domain_ids": ["d_financing_contracts", "d_leasing", "d_takaful", "d_investments"],
+      "outcome": "doubtful",
+      "severity": "advisory",
+      "trigger": { "type": "regex", "pattern": "\\binterest\\b", "flags": "i" },
+      "rationale": { "en": "English-language 'interest' is treated as a surface trigger for riba review; same unverified-citation downgrade as rule-riba-term applies.", "ar": "لفظ interest بالإنجليزية يعد مؤشرا على الربا للمراجعة؛ ويسري عليه نفس تخفيض الشك لعدم توثيق الإسناد." },
+      "citation_ids": ["cit-quran-2-275"],
+      "status": "active"
+    },
+    {
+      "rule_id": "rule-gharar-term",
+      "domain_ids": ["d_financing_contracts", "d_takaful", "d_investments"],
+      "outcome": "doubtful",
+      "severity": "advisory",
+      "trigger": { "type": "term", "term_ids": ["term-gharar"] },
+      "rationale": { "en": "Excessive uncertainty is flagged for human review; the pack's citation is unverified, so advisory only.", "ar": "الغرر الزائد يُعلَّم للمراجعة البشرية؛ الإسناد غير موثق فتُعد القاعدة تنبيها فقط." },
+      "citation_ids": ["cit-fiqh-consensus-gharar-maysir"],
+      "status": "active"
+    },
+    {
+      "rule_id": "rule-maysir-term",
+      "domain_ids": ["d_financing_contracts", "d_takaful", "d_investments"],
+      "outcome": "doubtful",
+      "severity": "advisory",
+      "trigger": { "type": "term", "term_ids": ["term-maysir"] },
+      "rationale": { "en": "Chance-based gain is flagged for human review; the pack's citation is unverified, so advisory only.", "ar": "المراهنة يُعلَّم للمراجعة البشرية؛ الإسناد غير موثق فتُعد القاعدة تنبيها فقط." },
+      "citation_ids": ["cit-fiqh-consensus-gharar-maysir"],
+      "status": "active"
+    },
+    {
+      "rule_id": "rule-missing-cost-price",
+      "domain_ids": ["d_financing_contracts"],
+      "outcome": "doubtful",
+      "severity": "advisory",
+      "trigger": { "type": "field_empty", "field": "cost_price" },
+      "rationale": { "en": "A murabaha-adjacent financing item without a declared cost_price cannot be assessed; the missing worksheet field is recorded as exact trigger evidence.", "ar": "بند تمويل بلا سعر تكلفة معلن لا يمكن تقييمه؛ يُثبَت غياب الحقل كدليل محدد." },
+      "citation_ids": ["cit-aaoifi-ss8"],
+      "status": "active"
+    }
+  ]
+}</script>
+<script>
+"use strict";
+/* SCW workbook UI (offline single-page app).
+ * Offline single-page app. The embedded rule pack is verified at load
+ * (canonical sha256); any identity failure refuses exports. Verdicts are
+ * rendered as proposed worksheet fields; the recorded verdict is a
+ * human-only field and the sign-off block is never filled by this tool.
+ * UI-session confirmations/notes gate the "reviewed worksheet" label only
+ * (UX contract) and are never exported. No network calls anywhere. */
+var PACK = JSON.parse(document.getElementById("pack").textContent);
+var LANG = "bi";
+var STATE = { input: null, result: null, att: null, csv: null,
+              confirmed: {}, notes: {}, facet: "all" };
+
+/* ---- chrome strings (UX content inventory; chrome text stays out of pack bytes) ---- */
+var STR = {
+title: {en: "Sharia-Compliance Workbook", ar: "دفتر المطابقة الشرعية"},
+d6: {en: "Pack v0.2.0 ships zero blocking rules because no verified sharia-substantive source exists yet; Gap verdicts are withheld, not guessed.",
+     ar: "تصدر الحزمة 0.2.0 بصفر قواعد مانعة لعدم وجود مصدر شرعي أصلي موثق بعد؛ حكم «فجوة» يُمتنع عنه لا يُخمَّن."},
+intake: {en: "Case input", ar: "مدخلات الحالة"},
+paste: {en: "Paste free text (Arabic, English or mixed)", ar: "لصق نص حر (عربي أو إنجليزي أو مختلط)"},
+guided: {en: "Guided form", ar: "نموذج موجّه"},
+freetext: {en: "Transaction, contract or term sheet", ar: "المعاملة أو العقد أو ورقة الشروط"},
+local: {en: "Text stays on this machine — no network calls.", ar: "النص يبقى على جهازك — لا استدعاءات للشبكة."},
+run: {en: "Run worksheet", ar: "تشغيل ورقة العمل"},
+p1: {en: "Structure reading", ar: "قراءة البنية"},
+p2: {en: "Mapping worksheet", ar: "ورقة المطابقة"},
+p3: {en: "Attestation pack", ar: "حزمة الإشهاد"},
+p4: {en: "Unverified list", ar: "قائمة غير الموثق"},
+limits: {en: "Coverage limits", ar: "حدود التغطية"},
+disclaimer: {en: "Drafting aid only — not legal advice, not a fatwa, not regulatory approval. Verdicts are proposals pending human sign-off.",
+             ar: "أداة مساعدة للإعداد فقط — ليست مشورة قانونية ولا فتوى ولا اعتمادًا تنظيميًا. الأحكام مقترحات تنتظر الاعتماد البشري."},
+unconfirmed: {en: "This run carries unconfirmed readings — exports will be labelled “unconfirmed input”, not “reviewed worksheet”.",
+              ar: "يحتوي هذا التشغيل على قراءات غير مؤكدة — ستُعلَّم التصديرات «مدخلات غير مؤكدة» لا «ورقة عمل مراجَعة»."},
+confirm: {en: "Confirm reading", ar: "تأكيد القراءة"},
+norun: {en: "Run the worksheet first — one run produces one attestation.", ar: "شغّل ورقة العمل أولًا — تشغيل واحد ينتج إفادة واحدة."}
+};
+var GLOSS = {compliant: {en: "Met", ar: "مستوفى"}, non_compliant: {en: "Gap", ar: "فجوة"},
+doubtful: {en: "Unverified", ar: "غير موثق"}, out_of_coverage: {en: "Not applicable", ar: "لا ينطبق"},
+insufficient_input: {en: "Needs evidence", ar: "يحتاج أدلة"}};
+var LIM = [
+["single_run_scope", "The pack covers murabaha, ijara, takaful and related structures across four domains. Anything outside the lexicon is “not covered” — never “compliant by silence”.", "تغطي هذه الحزمة المرابحة والإجارة والتكافل والبنية ذات الصلة عبر أربعة نطاقات."],
+["no_stemming_ar", "Free-text matching is exact-surface only — no stemming and no Arabic morphology.", "مطابقة النص الحر حرفية دقيقة فقط، بلا جذور ولا صرف عربي."],
+["required_field_missing", "A required worksheet field is empty — the item resolves to “Needs evidence”.", "حقل ورقة عمل مطلوب فارغ."],
+["no_coverage_outside_lexicon", "Outside this pack’s lexicon — not covered, never met by silence.", "خارج معجم هذه الحزمة — غير مغطى."],
+["absence_state_not_affirmative_ruling", "“compliant” is an absence state, not an affirmative ruling.", "«compliant» حالة غياب وليست حكمًا إيجابيًا."],
+["advisory_only_unverified_citations", "Advisory only — citations unverified; never a Gap verdict.", "تنبيه فقط — الإسنادات غير موثقة."],
+["unmatched_content_not_assessed", "Content that matches nothing in free-text mode is NOT assessed.", "المحتوى غير المطابق لم يُقيَّم."],
+["single_run_scope_limits", "Runs are single-run, stateless. Timestamps are local wall clock — provenance only. Drafting aid: not legal or sharia advice.", "التشغيلات مفردة وغير حالتية؛ أداة مساعدة للإعداد."]];
+var PACK_SHA = "1ea71e863f05f7b8c1c2fd64ce0b58fd03de5a3512e25b15d4bee64451cae042";
+var packShaLive = scwSha256Hex(scwUtf8(scwCanonString(PACK)));
+var PACK_OK = (packShaLive === PACK_SHA);
+function T(k){ var s = STR[k] || {en: k, ar: k};
+  return LANG === "ar" ? s.ar : LANG === "en" ? s.en : s.en + " / " + s.ar; }
+function esc(s){ return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+function bdi(s){ return "<bdi>" + esc(s) + "</bdi>"; }
+function show(id){ ["pane-intake", "pane-structure", "pane-worksheet", "pane-attestation", "pane-unverified"].forEach(function (p){ document.getElementById(p).classList.toggle("on", p === id); });
+  var btns = document.getElementById("rail").children;
+  for (var i = 0; i < btns.length; i++) btns[i].setAttribute("aria-current", btns[i].dataset.pane === id ? "true" : "false"); }
+function facetOf(title){ if (/Qatar Central Bank/i.test(title)) return "regulator"; if (/Law No/i.test(title)) return "statutory";
+  if (/AAOIFI|Quran|fiqh/i.test(title)) return "sharia"; return "secondary"; }
+function facetLabel(f){ return {statutory: "Statutory (Qatar law)", regulator: "Regulator (QCB)", sharia: "Sharia standards and texts", secondary: "Secondary references"}[f] || f; }
+function uuid4(){ var b = new Uint8Array(16); crypto.getRandomValues(b); b[6] = (b[6] & 15) | 64; b[8] = (b[8] & 63) | 128;
+  var h = Array.from(b).map(function (x){ return ("0" + x.toString(16)).slice(-2); }).join("");
+  return "ci-" + h.slice(0, 8) + "-" + h.slice(8, 12) + "-" + h.slice(12, 16) + "-" + h.slice(16, 20) + "-" + h.slice(20); }
+function nowISO(){ return new Date().toISOString().slice(0, 19) + "Z"; }
+function compact(ts){ return ts.replace(/-/g, "").replace(/:/g, ""); }
+function countsOf(result){ var c = {compliant: 0, non_compliant: 0, doubtful: 0, out_of_coverage: 0, insufficient_input: 0};
+  result.items.forEach(function (i){ c[i.verdict_proposed]++; }); return c; }
+
+/* ---- standalone HTML export (same content contract as Python build_html) ---- */
+function buildHTML(result, att){ var citTitle = {}; PACK.citations.forEach(function (c){ citTitle[c.citation_id] = c; });
+  var h = ["<!DOCTYPE html>", '<html lang="en" dir="ltr"><head><meta charset="utf-8">',
+    "<title>Sharia-Compliance Workbook — worksheet</title>",
+    "<style>body{font-family:Georgia,serif;color:#111;max-width:210mm;margin:0 auto;padding:12mm;}" +
+    ".ar{direction:rtl;text-align:right;}table{width:100%;border-collapse:collapse;}" +
+    "th,td{border:1px solid #444;padding:.4em;vertical-align:top;}thead{display:table-header-group;}" +
+    "tr{break-inside:avoid;}.signoff{border:2px solid #111;padding:1em;margin-top:2em;}" +
+    ".alert{border:2px solid #111;padding:.6em;margin:.6em 0;}" +
+    "@page{size:A4;margin:15mm;}</style></head><body>",
+    "<h1>Sharia-Compliance Workbook — mapping worksheet</h1>",
+    /* Standing export label (UX contract):
+     * immediately after the <h1>, before the drafting-aid paragraph —
+     * byte offset of the EN label < byte offset of the first <h2. */
+    '<p class="alert" data-statuslabel><strong>Input status: unconfirmed input</strong> — this document has not been reviewed and carries no reviewer sign-off.<br><span class="ar" dir="rtl" lang="ar">حالة المدخلات: مدخلات غير مؤكدة — لم تُراجع هذه الوثيقة ولا تحمل اعتماد مراجع.</span></p>',
+    "<p><strong>Drafting aid only — not legal advice, not a fatwa, not regulatory approval.</strong> " +
+    "Every verdict below is a <em>proposed</em> worksheet field pending human review and sign-off; the tool never approves.</p>",
+    "<p>Pack <b>" + esc(result.rule_pack.pack_id) + "</b> v" + esc(result.rule_pack.pack_version) +
+    " · sha256 <code>" + esc(result.rule_pack.sha256) + "</code> · status " + esc(result.rule_pack.status) +
+    "<br>Run <code>" + esc(att.run_id) + "</code> · engine " + esc(att.engine_version) +
+    "<br>Network calls: none · Deterministic: yes · LLM invoked: none</p>",
+    "<h2>Worksheet rows</h2><table><thead><tr><th>Item</th><th>Domain</th><th>Proposed — tool</th><th>Recorded — reviewer</th><th>Evidence</th></tr></thead><tbody>"];
+  result.items.forEach(function (item){ var tok = item.verdict_proposed, rows = [];
+    item.evidence.forEach(function (ev){ var t = ev.trigger, where;
+      if (t.type === "term") where = "term " + esc(t.term_id) + " “" + esc(t.match_text) + "” code points " + t.start_offset + "–" + t.end_offset;
+      else if (t.type === "regex") where = "pattern <code>" + esc(t.pattern) + "</code> “" + esc(t.match_text) + "”";
+      else if (t.type === "term_ref") where = "declared term " + esc(t.term_id);
+      else if (t.type === "field_empty") where = "required field <b>" + esc(t.field) + "</b> empty";
+      else where = "field <b>" + esc(t.field) + "</b> = " + esc(t.value);
+      rows.push("<p><b>" + esc(ev.rule_id) + "</b> (" + esc(ev.outcome) + ", " + esc(ev.severity) + ") — " + where +
+        "<br>" + esc(ev.rationale.en) + (ev.rationale.ar ? '<br><span class="ar" dir="rtl">' + esc(ev.rationale.ar) + "</span>" : "") + "</p>"); });
+    if (!rows.length) rows.push("<p>No rule in this pack fired.</p>");
+    h.push("<tr><td><b>" + esc(item.item_ref) + "</b></td><td>" + esc(item.domain_id) + "</td><td>Proposed: " + esc(tok) +
+      " (" + esc((GLOSS[tok] || {}).en || "") + ")</td><td>Recorded: not yet recorded</td><td>" + rows.join("") + "</td></tr>"); });
+  h.push("</tbody></table><h2>Coverage limits</h2><ol>");
+  LIM.forEach(function (l){ h.push("<li><b>" + esc(l[0]) + "</b> — " + esc(l[1]) + '</li>'); });
+  h.push("</ol><h2>Run attestation (read-only)</h2><pre>" + esc(JSON.stringify(att, null, 2)) + "</pre>");
+  h.push('<div class="signoff"><h2>Reviewer sign-off (human only — the tool leaves this blank)</h2>' +
+    "<p>Reviewer name: ____________________ &nbsp; Role: ____________________ &nbsp; Date: ____________</p>" +
+    "<p>Signature: ____________________ &nbsp; Completed: no</p></div></body></html>");
+  return h.join("\n"); }
+
+function download(name, text, mime){ var b = new Blob([text], {type: mime + ";charset=utf-8"});
+  var a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = name;
+  document.body.appendChild(a); a.click(); setTimeout(function (){ URL.revokeObjectURL(a.href); a.remove(); }, 500); }
+
+/* ---- intake ---- */
+var MODE = "paste", guidedItems = [];
+function packPanelHTML(){ var v = 0, u = 0;
+  PACK.citations.forEach(function (c){ if (c.status === "verified") v++; else u++; });
+  return "<details><summary>Rule pack identity</summary><p>Pack <b>" + bdi(PACK.pack_id) + "</b> v" + esc(PACK.pack_version) +
+    " · sha <span class='mono'>" + esc(packShaLive.slice(0, 16)) + "…</span> · " + esc(PACK.status) +
+    "<br>" + v + " verified · " + u + " unverified citations · 0 blocking rules</p></details>"; }
+function updateCounter(){ var t = document.getElementById("freetext").value;
+  document.getElementById("counter").textContent = t.length + " characters · " + Array.from(t).length + " code points";
+  var hasAr = /[\u0600-\u06FF]/.test(t), hasEn = /[A-Za-z]/.test(t);
+  document.getElementById("script").textContent = "Detected script: " + (!t ? "—" : hasAr && hasEn ? "mixed" : hasAr ? "Arabic" : hasEn ? "English" : "other"); }
+function renderGuidedForm(){ var box = document.getElementById("gform"); box.innerHTML = "";
+  guidedItems.forEach(function (it, idx){ var d = document.createElement("div"); d.style.margin = ".6em 0";
+    var domOpts = PACK.domains.map(function (dm){ return '<option value="' + esc(dm.domain_id) + '"' + (dm.domain_id === it.domain ? " selected" : "") + ">" + esc(dm.label.en) + "</option>"; }).join("");
+    var termOpts = PACK.lexicon.map(function (t){ return '<label style="margin-inline-end:.6em;"><input type="checkbox" data-g="' + idx + '" data-t="' + esc(t.term_id) + '"' + (it.terms.indexOf(t.term_id) !== -1 ? " checked" : "") + ' aria-describedby="termhelp-' + idx + '"> ' + esc(t.en) + " <span class='ar'>" + esc(t.ar) + "</span></label>"; }).join("");
+    /* Bilingual helper (UX contract, persistent):
+     * always visible while the form is shown; a term reaches the input
+     * only by an explicit operator click. */
+    var helper = '<p id="termhelp-' + idx + '"><span lang="en">Select at least one structure term — the workbook will not choose one for you.</span><br><span class="ar" lang="ar" dir="rtl">اختر مصطلح بنية واحدًا على الأقل — لن تختار الورقة أي مصطلح نيابة عنك.</span></p>';
+    var req = (PACK.domains.filter(function (dm){ return dm.domain_id === it.domain; })[0].required_fields || []);
+    var fields = ["parties", "subject_matter", "amount", "currency", "jurisdiction", "purpose", "cost_price", "profit_margin", "asset_owner", "contribution_model", "underlying_asset"].map(function (f){
+      return '<label>' + esc(f) + (req.indexOf(f) !== -1 ? '<span class="req">Required</span>' : "") +
+        ' <input data-g="' + idx + '" data-f="' + esc(f) + '" value="' + esc(it.fields[f] || "") + '"></label> '; }).join("");
+    d.innerHTML = "<p><b>Item " + (idx + 1) + "</b> <select data-gd='" + idx + "'>" + domOpts + "</select> " +
+      '<button class="act" data-rm="' + idx + '">Remove item / حذف البند</button></p><p role="group" aria-describedby="termhelp-' + idx + '">' + termOpts + "</p>" + helper + "<p>" + fields + "</p>";
+    box.appendChild(d); }); }
+function rmGuidedItem(ix){ guidedItems.splice(ix, 1); renderGuidedForm(); }
+function collectGuidedInput(){ var items = guidedItems.map(function (it, idx){
+    var domain = document.querySelector("select[data-gd='" + idx + "']").value;
+    var terms = Array.from(document.querySelectorAll("input[data-g='" + idx + "'][data-t]")).filter(function (c){ return c.checked; }).map(function (c){ return c.dataset.t; });
+    var fields = {}; document.querySelectorAll("input[data-g='" + idx + "'][data-f]").forEach(function (el){ if (el.value !== "") fields[el.dataset.f] = el.value; });
+    return {item_ref: "item-g-" + (idx + 1), domain_id: domain, term_ids: terms, fields: fields}; });
+  return {input_id: uuid4(), mode: "guided", created_utc: nowISO(),
+    rule_pack_ref: {pack_id: PACK.pack_id, pack_version: PACK.pack_version}, guided: {items: items}}; }
+function collectPasteInput(){ return {input_id: uuid4(), mode: "free_text", created_utc: nowISO(),
+    rule_pack_ref: {pack_id: PACK.pack_id, pack_version: PACK.pack_version},
+    free_text: {text: document.getElementById("freetext").value}}; }
+
+/* ---- run ---- */
+function doRun(){ if (!PACK_OK){ document.getElementById("runwarn").textContent = "Identity check failed for rule pack — exports are refused."; return; }
+  var inp = MODE === "paste" ? collectPasteInput() : collectGuidedInput();
+  if (MODE === "paste" && !inp.free_text.text){ document.getElementById("runwarn").textContent = "Paste text first."; return; }
+  if (MODE === "guided" && !inp.guided.items.length){ document.getElementById("runwarn").textContent = "Add at least one guided item."; return; }
+  /* Run gate (UX contract): zero checked
+   * terms is a legal form state but an illegal run state. Refuse
+   * pre-evaluation with exact copy — never substitute a term. The
+   * collected input stays inside case-input term_ids minItems 1. */
+  if (MODE === "guided"){
+    var zeroterm = [];
+    inp.guided.items.forEach(function (gi, ix){ if (!gi.term_ids.length) zeroterm.push(ix + 1); });
+    if (zeroterm.length){
+      var list = zeroterm.join(", ");
+      document.getElementById("runwarn").textContent =
+        "Item " + list + ": no structure term selected — check at least one term. The workbook will not choose one for you. " +
+        "البند " + list + ": لم يُختَر أي مصطلح بنية — حدّد مصطلحًا واحدًا على الأقل. لن تختار الورقة أي مصطلح نيابة عنك.";
+      STATE.result = null; STATE.att = null; STATE.csv = null; renderAll(); show("pane-intake"); return; } }
+  var started = nowISO();
+  var result = scwEvaluate(inp, PACK, packShaLive, SCW_ENGINE_VERSION);
+  var inputSha = scwSha256Hex(scwUtf8(scwCanonString(inp)));
+  var resultsSha = scwSha256Hex(scwUtf8(scwCanonString(result)));
+  var runId = "run-" + compact(started) + "-" + inputSha.slice(0, 8);
+  var csv = scwBuildCSV(result, runId);
+  var csvSha = scwSha256Hex(scwUtf8(csv));
+  var att = {attestation_version: "1.0.0", run_id: runId, clock_source: "local", run_started_utc: started, run_finished_utc: nowISO(),
+    offline_assertion: {network_calls_made: false, engine_is_deterministic: true, llm_invoked: false},
+    input_id: inp.input_id, input_sha256: inputSha,
+    rule_pack: {pack_id: PACK.pack_id, pack_version: PACK.pack_version, sha256: packShaLive, status: PACK.status},
+    engine_version: SCW_ENGINE_VERSION + "+js", results_sha256: resultsSha, verdict_counts: countsOf(result),
+    exports: [{kind: "csv", filename: "scw-export-" + runId + ".csv", sha256: csvSha}],
+    reviewer_signoff: {reviewer_name: "", reviewer_role: "", review_date: "", statement: null, completed: false},
+    disclaimer: {en: STR.disclaimer.en, ar: STR.disclaimer.ar}};
+  att.engine_version = SCW_ENGINE_VERSION; /* algorithm release identity (parity-tested); no schema field for impl */
+  STATE.input = inp; STATE.result = result; STATE.att = att; STATE.csv = csv; STATE.confirmed = {}; STATE.notes = {};
+  /* The standing in-app label appears the moment a run completes
+   * and is never removed afterwards in this session (section 4.4). */
+  document.getElementById("statuslabel").hidden = false;
+  result.items.forEach(function (it){ STATE.confirmed[it.item_ref] = it.confirmed_by_operator; });
+  document.getElementById("runwarn").textContent = "";
+  renderAll(); show("pane-structure"); }
+
+/* ---- renders ---- */
+function applyI18n(){ document.getElementById("root").lang = LANG === "ar" ? "ar" : "en";
+  document.getElementById("root").dir = LANG === "ar" ? "rtl" : "ltr";
+  document.getElementById("t-title").textContent = T("title");
+  document.getElementById("d6").textContent = T("d6");
+  document.getElementById("t-intake").textContent = T("intake");
+  document.getElementById("t-p1").textContent = T("p1"); document.getElementById("t-p2").textContent = T("p2");
+  document.getElementById("t-p3").textContent = T("p3"); document.getElementById("t-p4").textContent = T("p4");
+  document.getElementById("t-limits").textContent = T("limits");
+  document.getElementById("foot-disclaimer").textContent = T("disclaimer");
+  var rail = document.getElementById("rail"); rail.innerHTML = "";
+  [["pane-intake", "intake"], ["pane-structure", "p1"], ["pane-worksheet", "p2"], ["pane-attestation", "p3"], ["pane-unverified", "p4"]].forEach(function (p){
+    var b = document.createElement("button"); b.textContent = T(p[1]); b.dataset.pane = p[0];
+    b.onclick = function (){ show(p[0]); }; rail.appendChild(b); });
+  renderAll(); }
+function renderAll(){ renderChips(); renderP1(); renderP2(); renderP3(); renderP4(); }
+function renderChips(){ var v = 0, u = 0; PACK.citations.forEach(function (c){ if (c.status === "verified") v++; else u++; });
+  document.getElementById("chips").innerHTML =
+    '<span class="chip">Pack ' + bdi(PACK.pack_id) + " v" + esc(PACK.pack_version) + ' · sha <span class="mono">' + esc(packShaLive.slice(0, 12)) + "…</span></span>" +
+    '<span class="chip">DRAFT PACK · حزمة مسودة</span><span class="chip">0 blocking rules · لا قواعد مانعة</span>' +
+    '<span class="chip">Offline — no network calls</span>' +
+    (PACK_OK ? "" : '<span class="chip" role="alert">IDENTITY CHECK FAILED — exports refused</span>'); }
+function renderP1(){ var box = document.getElementById("p1list"), res = STATE.result;
+  if (!res){ box.innerHTML = "<p>" + esc(T("norun")) + "</p>"; document.getElementById("p1meter").textContent = ""; document.getElementById("p1banner").textContent = ""; return; }
+  var unconf = res.items.filter(function (it){ return !STATE.confirmed[it.item_ref]; }).length;
+  document.getElementById("p1banner").innerHTML = unconf ? '<div class="alert">' + esc(T("unconfirmed")) + "</div>" : "";
+  box.innerHTML = "";
+  res.items.forEach(function (it){ var d = document.createElement("div");
+    var ev = it.evidence.map(function (e){ var t = e.trigger;
+      return t.type === "term" ? "“" + t.match_text + "” @" + t.start_offset + "–" + t.end_offset :
+        t.type === "term_ref" ? "declared " + t.term_id :
+        t.type === "field_empty" ? "field " + t.field + " empty" : "regex “" + t.match_text + "”"; }).join("; ") || "no trigger";
+    d.innerHTML = "<p><b>" + bdi(it.item_ref) + "</b> · " + bdi(it.domain_id) + " · " +
+      (STATE.confirmed[it.item_ref] ? "Confirmed · مؤكد" : "Unconfirmed · غير مؤكد") + "<br>" + esc(ev) +
+      (STATE.confirmed[it.item_ref] ? "" : ' <button class="act" data-c="' + esc(it.item_ref) + '">' + esc(T("confirm")) + "</button>") + "</p>";
+    box.appendChild(d); });
+  box.querySelectorAll("button[data-c]").forEach(function (b){ b.onclick = function (){ STATE.confirmed[b.dataset.c] = true; renderAll(); }; });
+  var n = res.items.length;
+  document.getElementById("p1meter").textContent = (n - unconf) + " / " + n + " readings confirmed"; }
+function renderP2(){ var head = document.getElementById("p2head"), res = STATE.result, att = STATE.att;
+  if (!res){ head.innerHTML = "<p>" + esc(T("norun")) + "</p>"; document.getElementById("p2tb").innerHTML = ""; return; }
+  var c = countsOf(res);
+  head.innerHTML = "<p>Run <span class='mono'>" + esc(att.run_id) + "</span> · Proposed verdict counts: " +
+    ["compliant", "non_compliant", "doubtful", "out_of_coverage", "insufficient_input"].map(function (k){ return k + " " + c[k] + " (" + GLOSS[k].en + ")"; }).join("; ") + "</p>";
+  document.getElementById("p2tr").innerHTML = ["Domain", "Authority", "Citation", "Requirement (EN)", "Requirement (AR)", "Proposed verdict — tool", "Recorded verdict — reviewer", "Evidence requested", "Your note"].map(function (h){ return "<th>" + esc(h) + "</th>"; }).join("");
+  var facets = ["all", "statutory", "regulator", "sharia", "secondary"];
+  document.getElementById("facetbox").innerHTML = facets.map(function (f){ return '<button class="act" data-f="' + f + '">' + esc(f === "all" ? "Show all rows" : facetLabel(f)) + "</button>"; }).join("");
+  document.getElementById("facetbox").querySelectorAll("button").forEach(function (b){ b.onclick = function (){ STATE.facet = b.dataset.f; renderP2(); }; });
+  var tb = document.getElementById("p2tb"); tb.innerHTML = "";
+  var citById = {}; PACK.citations.forEach(function (x){ citById[x.citation_id] = x; });
+  res.items.forEach(function (it){
+    if (!it.evidence.length){
+      if (STATE.facet !== "all") return;
+      var tr0 = document.createElement("tr");
+      tr0.innerHTML = "<td>" + bdi(it.domain_id) + "</td><td>—</td><td>—</td><td>" +
+        (it.verdict_proposed === "compliant" ? "No rule in this pack fired." : "Outside this pack’s lexicon — not covered.") +
+        "</td><td>—</td><td><span class='badge'>Proposed: " + esc(it.verdict_proposed) + " (" + esc(GLOSS[it.verdict_proposed].en) + ")</span></td>" +
+        recordedCell(it) + "<td>" + evidenceAsk(it) + "</td>" + noteCell(it);
+      tb.appendChild(tr0); return; }
+    it.evidence.forEach(function (ev){ var f = facetOf((citById[ev.citation_ids[0]] || {title: ""}).title);
+      if (STATE.facet !== "all" && STATE.facet !== f) return;
+      var tr = document.createElement("tr");
+      var cites = ev.citation_ids.map(function (id){ var ci = citById[id] || {title: id, fetch_date: ""};
+        return esc(ci.title) + " [" + ev.citation_status + "]<br>Article / paragraph: not stated in pack" + (ci.fetch_date ? "<br>Primary source fetched " + esc(ci.fetch_date) : ""); }).join("<hr>");
+      tr.innerHTML = "<td>" + bdi(it.domain_id) + "</td><td>" + esc(facetLabel(f)) + "</td><td>" + cites + "</td>" +
+        "<td>" + esc(ev.rationale.en) + "</td><td>" + (ev.rationale.ar ? '<span class="ar" dir="rtl">' + esc(ev.rationale.ar) + "</span>" : '<span class="gap">AR gap — فجوة عربية</span>') + "</td>" +
+        "<td><span class='badge'>Proposed: " + esc(it.verdict_proposed) + " (" + esc(GLOSS[it.verdict_proposed].en) + ")</span></td>" +
+        recordedCell(it) + "<td>" + evidenceAsk(it) + "</td>" + noteCell(it);
+      tb.appendChild(tr); }); });
+  tb.querySelectorAll("select[data-r]").forEach(function (s){ s.onchange = function (){ STATE.notes["rec:" + s.dataset.r] = s.value; renderP2(); }; });
+  tb.querySelectorAll("input[data-n]").forEach(function (el){ el.oninput = function (){ STATE.notes["note:" + el.dataset.n] = el.value; }; }); }
+function recordedCell(it){ var cur = STATE.notes["rec:" + it.item_ref] || "";
+  var opts = ["", "compliant", "non_compliant", "doubtful", "out_of_coverage", "insufficient_input"].map(function (v){
+    return '<option value="' + v + '"' + (v === cur ? " selected" : "") + ">" + (v === "" ? "Not yet recorded · لم يُسجَّل بعد" : "Recorded: " + v) + "</option>"; }).join("");
+  return "<td><select data-r='" + esc(it.item_ref) + "' aria-label='Recorded verdict, reviewer only'>" + opts + "</select><br><small>Reviewer’s worksheet field. The tool never writes it; it is not an approval by the software.</small></td>"; }
+function noteCell(it){ var v = STATE.notes["note:" + it.item_ref] || "";
+  return "<td><input data-n='" + esc(it.item_ref) + "' value=\"" + esc(v).replace(/"/g, "&quot;") + "\" placeholder='What did you check, and with whom?' aria-label='note'></td>"; }
+function evidenceAsk(it){ if (it.verdict_proposed === "insufficient_input") return "Fill required field(s).";
+  if (it.verdict_proposed === "out_of_coverage") return "Not assessed — add this structure via the guided form.";
+  if (!it.evidence.length) return "None — nothing in this pack fired.";
+  if (it.unverified_findings.length) return "Primary source not fetched — see the Unverified list.";
+  return "Review the cited provision against your facts; the pack cannot verify your facts."; }
+function renderP3(){ var body = document.getElementById("p3body"), att = STATE.att;
+  ["exp-json", "exp-csv", "exp-html"].forEach(function (id){ document.getElementById(id).disabled = !att || !PACK_OK; });
+  if (!att){ body.innerHTML = "<p>" + esc(T("norun")) + "</p>"; }
+  /* Second in-app label instance (UX contract): same two
+   * sentences, same markup shape, content-level (no id) at the top of
+   * the attestation pane — shared data-statuslabel marker. */
+  else { body.innerHTML = '<p class="alert" data-statuslabel><strong>Input status: unconfirmed input</strong> — this document has not been reviewed and carries no reviewer sign-off.<br><span class="ar" dir="rtl" lang="ar">حالة المدخلات: مدخلات غير مؤكدة — لم تُراجع هذه الوثيقة ولا تحمل اعتماد مراجع.</span></p>' +
+    "<p>Run <span class='mono'>" + esc(att.run_id) + "</span> · input <span class='mono'>" + esc(att.input_sha256.slice(0, 12)) + "…</span> · results <span class='mono'>" + esc(att.results_sha256.slice(0, 12)) + "…</span> · pack <span class='mono'>" + esc(att.rule_pack.sha256.slice(0, 12)) + "…</span>" +
+    "<br>Network calls: none · Deterministic: yes · LLM invoked: none</p><pre>" + esc(JSON.stringify(att, null, 2)) + "</pre>"; }
+  var ol = document.getElementById("limits"); ol.innerHTML = "";
+  LIM.forEach(function (l){ var li = document.createElement("li");
+    li.innerHTML = "<b>" + esc(l[0]) + "</b> — " + esc(l[1]) + '<br><span class="ar" dir="rtl">' + esc(l[2]) + "</span>"; ol.appendChild(li); });
+  document.getElementById("signoff").innerHTML = "<h3>Reviewer sign-off (human only — the tool leaves this blank)</h3>" +
+    "<p>Reviewer name: ____________________ &nbsp; Reviewer role: ____________________ &nbsp; Review date: ____________</p>" +
+    "<p>Statement: _______________________________________________</p><p>Signature: ____________________ &nbsp; Completed: no</p>" +
+    "<p>Completed by the reviewer outside the tool — print or export the HTML worksheet and fill it in. The tool can never fill these fields.</p>"; }
+function renderP4(){ document.getElementById("p4banner").textContent = "Sources the research lane could not verify against their primary authority. Nothing here is a requirement, nothing here can produce a Gap verdict, and nothing here authorises action.";
+  document.getElementById("p4tr").innerHTML = ["Source", "Reason", "Status", "Used in"].map(function (h){ return "<th>" + esc(h) + "</th>"; }).join("");
+  var tb = document.getElementById("p4tb"); tb.innerHTML = "";
+  var usedBy = {}; (STATE.result ? STATE.result.items : []).forEach(function (it){ (it.unverified_findings || []).forEach(function (e){ e.citation_ids.forEach(function (id){ (usedBy[id] = usedBy[id] || []).push(it.item_ref); }); }); });
+  PACK.unverified_sources.forEach(function (u){ var tr = document.createElement("tr");
+    tr.innerHTML = "<td>" + bdi(u.citation_id) + "</td><td>" + esc(u.reason) + "</td><td>Unverified · غير موثق</td><td>" + esc((usedBy[u.citation_id] || []).join(", ") || "—") + "</td>";
+    tb.appendChild(tr); });
+  document.getElementById("t-findings").textContent = "Findings resting on these sources";
+  var f = document.getElementById("p4find"); f.innerHTML = "";
+  (STATE.result ? STATE.result.items : []).forEach(function (it){ (it.unverified_findings || []).forEach(function (e){
+    var p = document.createElement("p"); p.textContent = it.item_ref + " · " + e.rule_id + " [" + e.citation_status + "]"; f.appendChild(p); }); });
+  if (!f.children.length) f.innerHTML = "<p>—</p>"; }
+
+/* ---- wire up ---- */
+document.getElementById("packpanel").innerHTML = packPanelHTML();
+document.getElementById("freetext").addEventListener("input", updateCounter); updateCounter();
+document.getElementById("m-paste").onclick = function (){ MODE = "paste"; document.getElementById("pastebox").hidden = false; document.getElementById("guidedbox").hidden = true; };
+document.getElementById("m-guided").onclick = function (){ MODE = "guided"; document.getElementById("pastebox").hidden = true; document.getElementById("guidedbox").hidden = false;
+  if (!guidedItems.length){ guidedItems.push({domain: PACK.domains[0].domain_id, terms: [], fields: {}}); renderGuidedForm(); } };
+document.getElementById("gadd").onclick = function (){ guidedItems.push({domain: PACK.domains[0].domain_id, terms: [], fields: {}}); renderGuidedForm(); };
+document.getElementById("gform").addEventListener("click", function (e){ var ix = e.target && e.target.dataset ? e.target.dataset.rm : null;
+  if (ix == null) return; rmGuidedItem(Number(ix)); });
+document.getElementById("gform").addEventListener("change", function (e){ var g = e.target.dataset.g; if (g == null) return;
+  if (e.target.dataset.gd !== undefined || e.target.tagName === "SELECT"){ guidedItems[g].domain = e.target.value; renderGuidedForm(); return; }
+  if (e.target.dataset.t){ var t = e.target.dataset.t, ix = guidedItems[g].terms.indexOf(t);
+    if (e.target.checked && ix === -1) guidedItems[g].terms.push(t); if (!e.target.checked && ix !== -1) guidedItems[g].terms.splice(ix, 1); return; }
+  if (e.target.dataset.f){ guidedItems[g].fields[e.target.dataset.f] = e.target.value; } });
+document.getElementById("run").onclick = doRun;
+document.getElementById("exp-json").onclick = function (){ download("export-" + STATE.att.run_id + ".json", JSON.stringify({case_result: STATE.result, run_attestation: STATE.att, input_status: "unconfirmed input"}, null, 2), "application/json"); };
+document.getElementById("exp-csv").onclick = function (){ download(STATE.att.exports[0].filename, STATE.csv, "text/csv"); };
+document.getElementById("exp-html").onclick = function (){ download("worksheet-" + STATE.att.run_id + ".html", buildHTML(STATE.result, STATE.att), "text/html"); };
+document.getElementById("doprint").onclick = function (){ window.print(); };
+document.getElementById("langbox").querySelectorAll("button").forEach(function (b){ b.onclick = function (){ LANG = b.dataset.lang; applyI18n(); }; });
+applyI18n(); show("pane-intake");
+</script>
+</body>
+</html>
