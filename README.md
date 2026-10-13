@@ -24,6 +24,8 @@ Every export carries the standing label `Input status: unconfirmed input`.
 sh tools/run_all.sh
 ```
 
+`node tests/guided-form.mjs` checks guided domain changes and explicit field/term edits.
+
 That runs: pack gate (S1–S7 + engine compatibility) → 41-test suite →
 JS/Python parity gate → five end-to-end runs (two golden fixtures + three
 worked examples, pinned clocks so reruns are byte-identical) → export hashes.
